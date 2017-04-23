@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="1111.0">apulaiset.Komennettava</node>
+    <node x="325.24999999999994" y="710.0">tieto.Tieto</node>
+    <node x="168.0" y="1674.0">oope2017ht.Komentotulkki</node>
+    <node x="673.25" y="666.0">fi.uta.csjola.oope.lista.LinkitettyLista</node>
+    <node x="249.99999999999994" y="1055.0">tieto.Tiedosto</node>
+    <node x="1645.25" y="0.0">oope2017ht.oope2017ht</node>
+    <node x="0.0" y="1674.0">oope2017ht.Kayttoliittyma</node>
+    <node x="1300.25" y="0.0">apulaiset.In</node>
+    <node x="441.3090909090908" y="299.0">fi.uta.csjola.oope.lista.AbstraktiLista</node>
+    <node x="797.3090909090907" y="354.0">fi.uta.csjola.oope.lista.Solmu</node>
+    <node x="1062.25" y="788.0">apulaiset.Ooperoiva</node>
+    <node x="390.0590909090908" y="1334.0">tieto.Hakemisto</node>
+    <node x="427.8090909090908" y="0.0">fi.uta.csjola.oope.lista.Lista</node>
+    <node x="872.0499999999998" y="1099.5">oope2017ht.OmaLista</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="fi.uta.csjola.oope.lista.LinkitettyLista" target="fi.uta.csjola.oope.lista.Solmu">
+      <point x="0.0" y="-169.5" />
+      <point x="857.75" y="641.0" />
+      <point x="861.3090909090907" y="641.0" />
+      <point x="-64.0" y="103.5" />
+    </edge>
+    <edge source="tieto.Hakemisto" target="tieto.Tieto">
+      <point x="0.0" y="-147.5" />
+      <point x="576.0590909090909" y="1314.0" />
+      <point x="572.5" y="1314.0" />
+      <point x="572.5" y="1030.0" />
+      <point x="571.25" y="1030.0" />
+      <point x="82.0" y="125.5" />
+    </edge>
+    <edge source="oope2017ht.OmaLista" target="fi.uta.csjola.oope.lista.LinkitettyLista">
+      <point x="-60.25" y="-70.0" />
+      <point x="932.2999999999998" y="1030.0" />
+      <point x="857.75" y="1030.0" />
+      <point x="0.0" y="169.5" />
+    </edge>
+    <edge source="fi.uta.csjola.oope.lista.AbstraktiLista" target="fi.uta.csjola.oope.lista.Lista">
+      <point x="0.0" y="-158.5" />
+      <point x="0.0" y="124.5" />
+    </edge>
+    <edge source="fi.uta.csjola.oope.lista.LinkitettyLista" target="fi.uta.csjola.oope.lista.AbstraktiLista">
+      <point x="-123.0" y="-169.5" />
+      <point x="734.75" y="641.0" />
+      <point x="609.3090909090909" y="641.0" />
+      <point x="0.0" y="158.5" />
+    </edge>
+    <edge source="tieto.Tiedosto" target="tieto.Tieto">
+      <point x="0.0" y="-114.5" />
+      <point x="405.99999999999994" y="1030.0" />
+      <point x="407.24999999999994" y="1030.0" />
+      <point x="-82.0" y="125.5" />
+    </edge>
+    <edge source="tieto.Hakemisto" target="apulaiset.Komennettava">
+      <point x="-148.79999999999995" y="-147.5" />
+      <point x="427.25909090909084" y="1314.0" />
+      <point x="115.0" y="1314.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="tieto.Hakemisto" target="oope2017ht.OmaLista">
+      <point x="74.39999999999998" y="-147.5" />
+      <point x="650.4590909090907" y="1304.0" />
+      <point x="932.2999999999998" y="1304.0" />
+      <point x="-60.25" y="70.0" />
+    </edge>
+    <edge source="oope2017ht.OmaLista" target="apulaiset.Ooperoiva">
+      <point x="60.25" y="-70.0" />
+      <point x="1052.7999999999997" y="1030.0" />
+      <point x="1158.75" y="1030.0" />
+      <point x="0.0" y="47.5" />
+    </edge>
+    <edge source="tieto.Hakemisto" target="tieto.Tiedosto">
+      <point x="-74.39999999999998" y="-147.5" />
+      <point x="501.6590909090908" y="1304.0" />
+      <point x="405.99999999999994" y="1304.0" />
+      <point x="0.0" y="114.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="811.9999999999998" y="431.9999999999999" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
