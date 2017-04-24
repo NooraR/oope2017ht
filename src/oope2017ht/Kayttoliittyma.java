@@ -11,17 +11,17 @@ public class Kayttoliittyma extends Komentotulkki {
     private static final String ERROR = "Error!";
     private static final String EROTIN = "/";
     private static final String TERVETULOA = "Welcome to SOS.";
-    private static final String KIRJOITA = "/>";
+    private static final String KIRJOITA = ">";
     protected Hakemisto nykyinenHakemisto = null;
-    protected StringBuilder polku;
+    protected StringBuilder polku = new StringBuilder();
 
     public void start() {
         String komento;
         boolean jatketaanko = true;
         String valmisKomento = "md /";
-        polku = new StringBuilder();
 
         Komentotulkki komentotulkki = new Komentotulkki();
+        // Komentotulkki komentotulkki = new Komentotulkki(this);
         tulosta(TERVETULOA);
         komentotulkki.paloittele(valmisKomento);
 
@@ -29,7 +29,7 @@ public class Kayttoliittyma extends Komentotulkki {
         while (jatketaanko) {
             try {
                 System.out.println(polku);
-                tulosta("jaa-a");
+                System.out.println("kavi");
                 annaSyote();
                 komento = In.readString();
                 jatketaanko = komentotulkki.paloittele(komento);
@@ -57,7 +57,12 @@ public class Kayttoliittyma extends Komentotulkki {
 
     public void lisaaPolkuun(String lisays) {
         // ei pysty lisäämään Stringia
-        StringBuilder lisaa = new StringBuilder(EROTIN + lisays);
-        polku.append(lisaa);
+        if (lisays.equals("/")) {
+            polku.append(lisays);
+            tulosta("ok");
+        } else {
+            polku.append(EROTIN + lisays);
+            tulosta("noup");
+        }
     }
 }

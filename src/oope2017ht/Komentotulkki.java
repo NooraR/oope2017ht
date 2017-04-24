@@ -9,7 +9,12 @@ import tiedot.*;
 public class Komentotulkki extends Hakemisto {
 
     private static final String ERROR = "Error!";
+ /*   private Kayttoliittyma kayttoliittyma;
 
+    public Komentotulkki(Kayttoliittyma k) {
+        this.kayttoliittyma = k;
+    }
+*/
     public boolean paloittele(String syote) {
         String komento = "ei komentoa";
         String[] parametrit = null;
@@ -57,19 +62,23 @@ public class Komentotulkki extends Hakemisto {
             Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
             tulosta("mf toimi");
         }  else if (komento.equals("cd")) {
-            if (parametrit[1] == "..") {
-
-            } else if (parametrit[1] == null) {
+            if (parametrit[1].equals("..")) {
                 // Siirry ylihakemistoon
+            } else if (parametrit[1].equals(null)) {
+                // Siirry juurihakemistoon
             } else {
-
+                // Siirry annettuun hakemistoon
             }
         } else if (komento.equals("ls")) {
-
+            if (!(parametrit[1].equals(null))) {
+                // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
+            } else {
+                // listaa tämän hakemiston tiedostot ja alihakemistot
+            }
         } else if (komento.equals("find")) {
 
         } else if (komento.equals("rm")) {
-
+            poista(parametrit[1]);
         } else if (komento.equals("cp")) {
 
         } else if (komento.equals("mv")) {
