@@ -6,22 +6,21 @@ import tiedot.Hakemisto;
 /**
  * Created by weppi on 31.3.2017.
  */
-public class Kayttoliittyma {
+public class Kayttoliittyma extends Komentotulkki {
 
     private static final String ERROR = "Error!";
     private static final String EROTIN = "/";
     private static final String TERVETULOA = "Welcome to SOS.";
     private static final String KIRJOITA = "/>";
-    protected Hakemisto nykyinenHakemisto;
+    protected Hakemisto nykyinenHakemisto = null;
     protected StringBuilder polku;
 
     public void start() {
         String komento;
         boolean jatketaanko = true;
         String valmisKomento = "md /";
+        polku = new StringBuilder();
 
-        nykyinenHakemisto = null;
-        polku = null;
         Komentotulkki komentotulkki = new Komentotulkki();
         tulosta(TERVETULOA);
         komentotulkki.paloittele(valmisKomento);
@@ -58,7 +57,7 @@ public class Kayttoliittyma {
 
     public void lisaaPolkuun(String lisays) {
         // ei pysty lisäämään Stringia
-        polku.append(EROTIN);
-        polku.append(lisays);
+        StringBuilder lisaa = new StringBuilder(EROTIN + lisays);
+        polku.append(lisaa);
     }
 }

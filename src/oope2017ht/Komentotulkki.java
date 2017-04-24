@@ -6,7 +6,7 @@ import tiedot.*;
 /**
  * Created by weppi on 31.3.2017.
  */
-public class Komentotulkki {
+public class Komentotulkki extends Hakemisto {
 
     private static final String ERROR = "Error!";
 
