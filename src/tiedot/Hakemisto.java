@@ -53,8 +53,6 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
     *
      */
 
-
-
     // toString-metodi
 
     public String toString() {

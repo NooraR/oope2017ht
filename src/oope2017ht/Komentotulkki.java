@@ -73,10 +73,11 @@ public class Komentotulkki extends Hakemisto {
                 // Siirry ylihakemistoon
             } else if (parametrit[1].equals(null)) {
                 String juurihakemisto = "/";
-                kayttoliittyma.nykyinenHakemisto = Hakemisto.hae(juurihakemisto);
+                kayttoliittyma.nykyinenHakemisto = this.hae(juurihakemisto);
                 // Siirry juurihakemistoon
             } else {
                 // Siirry annettuun hakemistoon
+                kayttoliittyma.nykyinenHakemisto = this.hae(parametrit[i]);
             }
         } else if (komento.equals("ls")) {
             if (!(parametrit[1].equals(null))) {
