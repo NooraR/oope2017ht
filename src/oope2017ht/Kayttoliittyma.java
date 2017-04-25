@@ -20,8 +20,8 @@ public class Kayttoliittyma extends Komentotulkki {
         boolean jatketaanko = true;
         String valmisKomento = "md /";
 
-        Komentotulkki komentotulkki = new Komentotulkki();
-        // Komentotulkki komentotulkki = new Komentotulkki(this);
+        //Komentotulkki komentotulkki = new Komentotulkki();
+        Komentotulkki komentotulkki = new Komentotulkki(this);
         tulosta(TERVETULOA);
         komentotulkki.paloittele(valmisKomento);
 

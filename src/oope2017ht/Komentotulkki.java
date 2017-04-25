@@ -9,12 +9,16 @@ import tiedot.*;
 public class Komentotulkki extends Hakemisto {
 
     private static final String ERROR = "Error!";
- /*   private Kayttoliittyma kayttoliittyma;
+    private Kayttoliittyma kayttoliittyma;
+
+    public Komentotulkki() {
+
+    }
 
     public Komentotulkki(Kayttoliittyma k) {
         this.kayttoliittyma = k;
     }
-*/
+
     public boolean paloittele(String syote) {
         String komento = "ei komentoa";
         String[] parametrit = null;
@@ -53,9 +57,10 @@ public class Komentotulkki extends Hakemisto {
 
     private boolean tulkitse(String komento, String[] parametrit) {
 
+        // Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
+
         if (komento.equals("md")) {
             // nykyinen hakemisto toiseksi parametriksi
-            Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
             Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), kayttoliittyma.annaHakemisto());
             kayttoliittyma.lisaaPolkuun(parametrit[1]);
         } else if (komento.equals("mf")) {
@@ -63,8 +68,12 @@ public class Komentotulkki extends Hakemisto {
             tulosta("mf toimi");
         }  else if (komento.equals("cd")) {
             if (parametrit[1].equals("..")) {
+                kayttoliittyma.nykyinenHakemisto = this.annaYlihakemisto();
+                paivitaPolku(kayttoliittyma.nykyinenHakemisto);
                 // Siirry ylihakemistoon
             } else if (parametrit[1].equals(null)) {
+                String juurihakemisto = "/";
+                kayttoliittyma.nykyinenHakemisto = Hakemisto.hae(juurihakemisto);
                 // Siirry juurihakemistoon
             } else {
                 // Siirry annettuun hakemistoon
@@ -93,6 +102,18 @@ public class Komentotulkki extends Hakemisto {
 
     private void tulosta(String tulostettava) {
         System.out.println(tulostettava);
+    }
+
+    protected void paivitaPolku(Hakemisto nykyinen) {
+
+        int i = kayttoliittyma.polku.length();
+        while(!(kayttoliittyma.polku.charAt(i) == '/')) {
+            kayttoliittyma.polku.deleteCharAt(i);
+            i--;
+        }
+        i = kayttoliittyma.polku.length();
+        kayttoliittyma.polku.deleteCharAt(i);
+        System.out.println(kayttoliittyma.polku);
     }
 
 }
