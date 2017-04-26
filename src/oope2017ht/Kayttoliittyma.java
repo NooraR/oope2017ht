@@ -8,6 +8,8 @@ import tiedot.Hakemisto;
  */
 public class Kayttoliittyma extends Komentotulkki {
 
+    // juurihakemiston '/' pois Tieto-kansion sallituista merkeistä
+
     private static final String ERROR = "Error!";
     private static final String EROTIN = "/";
     private static final String TERVETULOA = "Welcome to SOS.";
@@ -18,18 +20,20 @@ public class Kayttoliittyma extends Komentotulkki {
     public void start() {
         String komento;
         boolean jatketaanko = true;
-        String valmisKomento = "md /";
+        String valmisKomento1 = "md /";
+        String valmiskomento2 = "cd /";
+
 
         //Komentotulkki komentotulkki = new Komentotulkki();
         Komentotulkki komentotulkki = new Komentotulkki(this);
         tulosta(TERVETULOA);
-        komentotulkki.paloittele(valmisKomento);
+        komentotulkki.paloittele(valmisKomento1);
+        komentotulkki.paloittele(valmiskomento2);
 
         // pyörittää ohjelmaa
         while (jatketaanko) {
             try {
-                System.out.println(polku);
-                System.out.println("kavi");
+                tulosta(polku);
                 annaSyote();
                 komento = In.readString();
                 jatketaanko = komentotulkki.paloittele(komento);
@@ -47,7 +51,7 @@ public class Kayttoliittyma extends Komentotulkki {
         return nykyinenHakemisto;
     }
 
-    public void tulosta(String tulostettava) {
+    public void tulosta(Object tulostettava) {
         System.out.println(tulostettava);
     }
 
@@ -56,13 +60,10 @@ public class Kayttoliittyma extends Komentotulkki {
     }
 
     public void lisaaPolkuun(String lisays) {
-        // ei pysty lisäämään Stringia
         if (lisays.equals("/")) {
             polku.append(lisays);
-            tulosta("ok");
         } else {
-            polku.append(EROTIN + lisays);
-            tulosta("noup");
+            polku.append(lisays + EROTIN);
         }
     }
 }

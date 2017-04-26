@@ -1,6 +1,7 @@
 package oope2017ht;
 
 
+import fi.uta.csjola.oope.lista.LinkitettyLista;
 import tiedot.*;
 
 /**
@@ -11,9 +12,7 @@ public class Komentotulkki extends Hakemisto {
     private static final String ERROR = "Error!";
     private Kayttoliittyma kayttoliittyma;
 
-    public Komentotulkki() {
-
-    }
+    public Komentotulkki() { }
 
     public Komentotulkki(Kayttoliittyma k) {
         this.kayttoliittyma = k;
@@ -62,7 +61,7 @@ public class Komentotulkki extends Hakemisto {
         if (komento.equals("md")) {
             // nykyinen hakemisto toiseksi parametriksi
             Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), kayttoliittyma.annaHakemisto());
-            kayttoliittyma.lisaaPolkuun(parametrit[1]);
+
         } else if (komento.equals("mf")) {
             Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
             tulosta("mf toimi");
@@ -73,16 +72,21 @@ public class Komentotulkki extends Hakemisto {
                 // Siirry ylihakemistoon
             } else if (parametrit[1].equals(null)) {
                 String juurihakemisto = "/";
-                kayttoliittyma.nykyinenHakemisto = this.hae(juurihakemisto);
+                kayttoliittyma.nykyinenHakemisto = (Hakemisto)this.hae(juurihakemisto);
+                paivitaPolku(kayttoliittyma.nykyinenHakemisto);
                 // Siirry juurihakemistoon
             } else {
                 // Siirry annettuun hakemistoon
-                kayttoliittyma.nykyinenHakemisto = this.hae(parametrit[i]);
+                kayttoliittyma.nykyinenHakemisto = (Hakemisto)this.hae(parametrit[1]);
+                kayttoliittyma.lisaaPolkuun(parametrit[1]);
             }
         } else if (komento.equals("ls")) {
             if (!(parametrit[1].equals(null))) {
+                Hakemisto haettu = (Hakemisto) kayttoliittyma.hae(parametrit[1]);
+                tulostaSisalto(haettu.sisalto());
                 // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
             } else {
+                tulostaSisalto(kayttoliittyma.nykyinenHakemisto.sisalto());
                 // listaa tämän hakemiston tiedostot ja alihakemistot
             }
         } else if (komento.equals("find")) {
@@ -96,12 +100,16 @@ public class Komentotulkki extends Hakemisto {
         } else if (komento.equals("exit")) {
             return false;
         } else {
-            System.out.println(ERROR + "Viimeisesta");
+            tulostaln(ERROR + "Viimeisesta");
         }
         return true;
     }
 
     private void tulosta(String tulostettava) {
+        System.out.println(tulostettava);
+    }
+
+    protected void tulostaln(Object tulostettava) {
         System.out.println(tulostettava);
     }
 
@@ -114,7 +122,19 @@ public class Komentotulkki extends Hakemisto {
         }
         i = kayttoliittyma.polku.length();
         kayttoliittyma.polku.deleteCharAt(i);
-        System.out.println(kayttoliittyma.polku);
+        tulostaln(kayttoliittyma.polku);
+    }
+
+    public void tulostaSisalto(LinkitettyLista lista) {
+        if (lista != null) {
+            tulosta("[ ");
+            for (int i = 0; i < lista.koko(); i++) {
+                System.out.print(lista.alkio(i));
+                if (i < lista.koko() -1)
+                    tulosta(", ");
+            }
+            tulostaln(" ]");
+        }
     }
 
 }
