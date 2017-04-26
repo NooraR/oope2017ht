@@ -14,8 +14,6 @@ public class Kayttoliittyma extends Komentotulkki {
     private static final String EROTIN = "/";
     private static final String TERVETULOA = "Welcome to SOS.";
     private static final String KIRJOITA = ">";
-    protected Hakemisto nykyinenHakemisto = null;
-    protected StringBuilder polku = new StringBuilder();
 
     public void start() {
         String komento;
@@ -24,8 +22,8 @@ public class Kayttoliittyma extends Komentotulkki {
         String valmiskomento2 = "cd /";
 
 
-        //Komentotulkki komentotulkki = new Komentotulkki();
-        Komentotulkki komentotulkki = new Komentotulkki(this);
+        Komentotulkki komentotulkki = new Komentotulkki();
+        //Komentotulkki komentotulkki = new Komentotulkki(this);
         tulosta(TERVETULOA);
         komentotulkki.paloittele(valmisKomento1);
         komentotulkki.paloittele(valmiskomento2);
@@ -33,7 +31,7 @@ public class Kayttoliittyma extends Komentotulkki {
         // pyörittää ohjelmaa
         while (jatketaanko) {
             try {
-                tulosta(polku);
+                tulosta(annaPolku());
                 annaSyote();
                 komento = In.readString();
                 jatketaanko = komentotulkki.paloittele(komento);
@@ -41,14 +39,6 @@ public class Kayttoliittyma extends Komentotulkki {
                 tulosta(ERROR);
             }
         }
-    }
-
-    public void asetaHakemisto(Hakemisto annettuHakemisto) {
-        nykyinenHakemisto = annettuHakemisto;
-    }
-
-    public Hakemisto annaHakemisto() {
-        return nykyinenHakemisto;
     }
 
     public void tulosta(Object tulostettava) {
@@ -59,11 +49,5 @@ public class Kayttoliittyma extends Komentotulkki {
         System.out.print(KIRJOITA);
     }
 
-    public void lisaaPolkuun(String lisays) {
-        if (lisays.equals("/")) {
-            polku.append(lisays);
-        } else {
-            polku.append(lisays + EROTIN);
-        }
-    }
+
 }

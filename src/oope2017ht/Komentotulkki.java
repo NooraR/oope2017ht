@@ -10,13 +10,15 @@ import tiedot.*;
 public class Komentotulkki extends Hakemisto {
 
     private static final String ERROR = "Error!";
-    private Kayttoliittyma kayttoliittyma;
+    private static final String EROTIN = "/";
+    private Hakemisto nykyinenHakemisto = null;
+    private StringBuilder polku = new StringBuilder();
 
     public Komentotulkki() { }
 
-    public Komentotulkki(Kayttoliittyma k) {
-        this.kayttoliittyma = k;
-    }
+    //public Komentotulkki(Kayttoliittyma k) {
+     //   this.kayttoliittyma = k;
+    //}
 
     public boolean paloittele(String syote) {
         String komento = "ei komentoa";
@@ -60,33 +62,33 @@ public class Komentotulkki extends Hakemisto {
 
         if (komento.equals("md")) {
             // nykyinen hakemisto toiseksi parametriksi
-            Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), kayttoliittyma.annaHakemisto());
+            Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), nykyinenHakemisto);
 
         } else if (komento.equals("mf")) {
             Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
             tulosta("mf toimi");
         }  else if (komento.equals("cd")) {
             if (parametrit[1].equals("..")) {
-                kayttoliittyma.nykyinenHakemisto = this.annaYlihakemisto();
-                paivitaPolku(kayttoliittyma.nykyinenHakemisto);
+                nykyinenHakemisto = this.annaYlihakemisto();
+                paivitaPolku(nykyinenHakemisto);
                 // Siirry ylihakemistoon
             } else if (parametrit[1].equals(null)) {
                 String juurihakemisto = "/";
-                kayttoliittyma.nykyinenHakemisto = (Hakemisto)this.hae(juurihakemisto);
-                paivitaPolku(kayttoliittyma.nykyinenHakemisto);
+                nykyinenHakemisto = (Hakemisto)this.hae(juurihakemisto);
+                paivitaPolku(nykyinenHakemisto);
                 // Siirry juurihakemistoon
             } else {
                 // Siirry annettuun hakemistoon
-                kayttoliittyma.nykyinenHakemisto = (Hakemisto)this.hae(parametrit[1]);
-                kayttoliittyma.lisaaPolkuun(parametrit[1]);
+                nykyinenHakemisto = (Hakemisto)this.hae(parametrit[1]);
+                lisaaPolkuun(parametrit[1]);
             }
         } else if (komento.equals("ls")) {
             if (!(parametrit[1].equals(null))) {
-                Hakemisto haettu = (Hakemisto) kayttoliittyma.hae(parametrit[1]);
+                Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
                 tulostaSisalto(haettu.sisalto());
                 // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
             } else {
-                tulostaSisalto(kayttoliittyma.nykyinenHakemisto.sisalto());
+                tulostaSisalto(nykyinenHakemisto.sisalto());
                 // listaa tämän hakemiston tiedostot ja alihakemistot
             }
         } else if (komento.equals("find")) {
@@ -109,23 +111,23 @@ public class Komentotulkki extends Hakemisto {
         System.out.println(tulostettava);
     }
 
-    protected void tulostaln(Object tulostettava) {
+    private void tulostaln(Object tulostettava) {
         System.out.println(tulostettava);
     }
 
-    protected void paivitaPolku(Hakemisto nykyinen) {
+    private void paivitaPolku(Hakemisto nykyinen) {
 
-        int i = kayttoliittyma.polku.length();
-        while(!(kayttoliittyma.polku.charAt(i) == '/')) {
-            kayttoliittyma.polku.deleteCharAt(i);
+        int i = polku.length();
+        while(!(polku.charAt(i) == '/')) {
+            polku.deleteCharAt(i);
             i--;
         }
-        i = kayttoliittyma.polku.length();
-        kayttoliittyma.polku.deleteCharAt(i);
-        tulostaln(kayttoliittyma.polku);
+        i = polku.length();
+        polku.deleteCharAt(i);
+        tulostaln(polku);
     }
 
-    public void tulostaSisalto(LinkitettyLista lista) {
+    private void tulostaSisalto(LinkitettyLista lista) {
         if (lista != null) {
             tulosta("[ ");
             for (int i = 0; i < lista.koko(); i++) {
@@ -137,4 +139,23 @@ public class Komentotulkki extends Hakemisto {
         }
     }
 
+    private void lisaaPolkuun(String lisays) {
+        if (lisays.equals("/")) {
+            polku.append(lisays);
+        } else {
+            polku.append(lisays + EROTIN);
+        }
+    }
+
+    public StringBuilder annaPolku() {
+        return polku;
+    }
+
+    public void asetaHakemisto(Hakemisto annettuHakemisto) {
+        nykyinenHakemisto = annettuHakemisto;
+    }
+
+    public Hakemisto annaHakemisto() {
+        return nykyinenHakemisto;
+    }
 }
