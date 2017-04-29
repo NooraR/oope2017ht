@@ -18,15 +18,10 @@ public class Kayttoliittyma extends Komentotulkki {
     public void start() {
         String komento;
         boolean jatketaanko = true;
-        String valmisKomento1 = "md /";
-        String valmiskomento2 = "cd /";
-
 
         Komentotulkki komentotulkki = new Komentotulkki();
-        //Komentotulkki komentotulkki = new Komentotulkki(this);
-        tulosta(TERVETULOA);
-        komentotulkki.paloittele(valmisKomento1);
-        komentotulkki.paloittele(valmiskomento2);
+        tulostaln(TERVETULOA);
+        luoJuurihakemisto();
 
         // pyörittää ohjelmaa
         while (jatketaanko) {
@@ -35,14 +30,22 @@ public class Kayttoliittyma extends Komentotulkki {
                 annaSyote();
                 komento = In.readString();
                 jatketaanko = komentotulkki.paloittele(komento);
+            } catch (NullPointerException e) {
+                tulostaln(ERROR + "nullpointer");
+            } catch (IllegalArgumentException e) {
+                tulostaln(ERROR + "illegal");
             } catch (Exception e) {
-                tulosta(ERROR);
+                tulostaln(ERROR + "kayttoliittyma");
             }
         }
     }
 
-    public void tulosta(Object tulostettava) {
+    public void tulostaln(Object tulostettava) {
         System.out.println(tulostettava);
+    }
+
+    public void tulosta(Object tulostettava) {
+        System.out.print(tulostettava);
     }
 
     private void annaSyote() {

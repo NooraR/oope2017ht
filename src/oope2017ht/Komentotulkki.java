@@ -13,76 +13,50 @@ public class Komentotulkki extends Hakemisto {
     private static final String EROTIN = "/";
     private Hakemisto nykyinenHakemisto = null;
     private StringBuilder polku = new StringBuilder();
+    private Hakemisto juurihakemisto;
 
-    public Komentotulkki() { }
-
-    //public Komentotulkki(Kayttoliittyma k) {
-     //   this.kayttoliittyma = k;
-    //}
 
     public boolean paloittele(String syote) {
-        String komento = "ei komentoa";
-        String[] parametrit = null;
-
-        if (syote.contains(" ")) {
-            parametrit = syote.split(" ");
-            komento = parametrit[0];
-        } else {
-            tulosta("Syöte ei sisällä parametreja");
-        }
-
-       /* System.out.println(syote);
-
-        char etsitty = ' ';
-        String komento = null;
-        String parametri = null;
-
-        if (syote.charAt(2) == etsitty) {
-            komento = syote.substring(0,2);
-            for(int i = 3; i < syote.length(); i++) {
-
-            }
-            parametri = syote.substring(3,syote.length());
-        } else if (syote.charAt(4) == ' ') {
-            komento = syote.substring(0,4);
-            parametri = syote.substring(5,syote.length());
-        } else {
-            System.out.println(ERROR);
-        }*/
-
-        /*System.out.println(komento);
-        System.out.println(parametrit[1]);*/
-        return tulkitse(komento, parametrit);
-
+        String[] parametrit;
+        parametrit = syote.split(" ");
+        return tulkitse(parametrit);
     }
 
-    private boolean tulkitse(String komento, String[] parametrit) {
+    private boolean tulkitse(String[] parametrit) {
 
-        // Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
-
-        if (komento.equals("md")) {
+        if (parametrit[0].equals("md")) {
             // nykyinen hakemisto toiseksi parametriksi
             Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), nykyinenHakemisto);
-
-        } else if (komento.equals("mf")) {
+        } else if (parametrit[0].equals("mf")) {
             Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
             tulosta("mf toimi");
-        }  else if (komento.equals("cd")) {
-            if (parametrit[1].equals("..")) {
-                nykyinenHakemisto = this.annaYlihakemisto();
-                paivitaPolku(nykyinenHakemisto);
-                // Siirry ylihakemistoon
-            } else if (parametrit[1].equals(null)) {
-                String juurihakemisto = "/";
-                nykyinenHakemisto = (Hakemisto)this.hae(juurihakemisto);
-                paivitaPolku(nykyinenHakemisto);
-                // Siirry juurihakemistoon
+        } else if (parametrit[0].equals("cd")) {
+
+             if (parametrit.length < 2) {
+                 tulosta("väärä paikka");
+                 nykyinenHakemisto = juurihakemisto;
+                 polku = new StringBuilder("/");
+                 // Siirry juurihakemistoon
+
+            } else if (parametrit[1].equals("..")) {
+
+                 nykyinenHakemisto = this.annaYlihakemisto();
+                 paivitaPolku();
+                 // Siirry ylihakemistoon
+
+            } else if (parametrit.length > 1){
+
+                 tulosta("siirtyminen");
+                 // Siirry annettuun hakemistoon
+                 tulosta(parametrit[1]);
+                 // aiheuttaa nullPointerin
+                 nykyinenHakemisto = (Hakemisto)nykyinenHakemisto.hae(parametrit[1]);
+                 lisaaPolkuun(parametrit[1]);
+
             } else {
-                // Siirry annettuun hakemistoon
-                nykyinenHakemisto = (Hakemisto)this.hae(parametrit[1]);
-                lisaaPolkuun(parametrit[1]);
+                tulosta("Ei mennyt mihinkaan");
             }
-        } else if (komento.equals("ls")) {
+        } else if (parametrit[0].equals("ls")) {
             if (!(parametrit[1].equals(null))) {
                 Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
                 tulostaSisalto(haettu.sisalto());
@@ -91,15 +65,15 @@ public class Komentotulkki extends Hakemisto {
                 tulostaSisalto(nykyinenHakemisto.sisalto());
                 // listaa tämän hakemiston tiedostot ja alihakemistot
             }
-        } else if (komento.equals("find")) {
+        } else if (parametrit[0].equals("find")) {
 
-        } else if (komento.equals("rm")) {
+        } else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);
-        } else if (komento.equals("cp")) {
+        } else if (parametrit[0].equals("cp")) {
+            Tiedosto tiedosto = new Tiedosto(hae(parametrit[1]));
+        } else if (parametrit[0].equals("mv")) {
 
-        } else if (komento.equals("mv")) {
-
-        } else if (komento.equals("exit")) {
+        } else if (parametrit[0].equals("exit")) {
             return false;
         } else {
             tulostaln(ERROR + "Viimeisesta");
@@ -115,16 +89,18 @@ public class Komentotulkki extends Hakemisto {
         System.out.println(tulostettava);
     }
 
-    private void paivitaPolku(Hakemisto nykyinen) {
+    private void paivitaPolku() {
+        String[] hakemistot;
+        hakemistot = polku.toString().split("/");
 
-        int i = polku.length();
-        while(!(polku.charAt(i) == '/')) {
-            polku.deleteCharAt(i);
+        int i = hakemistot.length;
+        while (!(hakemistot[i].equals(nykyinenHakemisto))) {
+            hakemistot[i] = null;
             i--;
         }
-        i = polku.length();
-        polku.deleteCharAt(i);
-        tulostaln(polku);
+
+
+
     }
 
     private void tulostaSisalto(LinkitettyLista lista) {
@@ -157,5 +133,12 @@ public class Komentotulkki extends Hakemisto {
 
     public Hakemisto annaHakemisto() {
         return nykyinenHakemisto;
+    }
+
+    public void luoJuurihakemisto() {
+        nykyinenHakemisto = new Hakemisto();
+        juurihakemisto = nykyinenHakemisto;
+        lisaaPolkuun(nykyinenHakemisto.annaNimi().toString());
+
     }
 }

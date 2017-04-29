@@ -1,5 +1,6 @@
 package tiedot;
 
+
 /**
  * Created by weppi on 31.3.2017.
  */
@@ -18,6 +19,19 @@ public class Tiedosto extends Tieto {
     *
      */
 
+   /* Tiedosto tiedosto = new Tiedosto(new StringBuilder("grumpy_cat.jpeg"), 335932);
+    Tiedosto kopio = new Tiedosto(tiedosto);
+    // 24
+    // grumpy_cat.jpeg 335932
+    // grumpy_cat.jpeg 335932
+    // true
+    // 0
+         System.out.println(tiedosto);
+         System.out.println(kopio);
+         System.out.println(tiedosto.equals(kopio));
+         System.out.println(tiedosto.compareTo(kopio));*/
+
+
     public Tiedosto() {
         super();
         this.asetaKoko(0);
@@ -28,15 +42,13 @@ public class Tiedosto extends Tieto {
             this.asetaKoko(annettuKoko);
     }
 
-    // Tiedoston kopiorakentaja
+    // Kopiorakentaja
 
     public Tiedosto(Object t) {
-        if (t instanceof Tiedosto) {
-            super.asetaNimi(((Tiedosto) t).annaNimi());
-            asetaKoko(((Tiedosto) t).annaKoko());
-        }
+        //if (t instanceof Tiedosto) {
+            super((Tiedosto)t);
+        //}
     }
-
 
     /*
     * Aksessorit

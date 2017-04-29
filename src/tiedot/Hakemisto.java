@@ -1,8 +1,9 @@
 package tiedot;
 
-import apulaiset.*;
 import fi.uta.csjola.oope.lista.LinkitettyLista;
 import omalista.OmaLista;
+import apulaiset.Komennettava;
+
 /**
  * Created by weppi on 31.3.2017.
  */
@@ -25,7 +26,7 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      */
 
     public Hakemisto() {
-        super();
+        super(new StringBuilder("/"));
         asetaYlihakemisto(null);
     }
 
@@ -70,7 +71,6 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      *
      */
 
-    @Override
     public LinkitettyLista sisalto() {
         return lista;
     }
@@ -83,7 +83,6 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      * @return viite l�ydettyyn tietoon. Paluuarvo on null, jos tietoa ei l�ydet�.
      */
 
-    @Override
     public Tieto hae(String nimi) {
         if (null != nimi) {
             Tiedosto apuTiedosto = new Tiedosto(new StringBuilder(nimi), 1);
@@ -111,7 +110,6 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      * tai hakemistossa on jo tiedot parametrina annetulla nimell�.
      */
 
-    @Override
     public boolean lisaa(Tieto lisattava) {
         return lista.lisaa(lisattava);
     }

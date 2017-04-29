@@ -28,6 +28,17 @@ public abstract class Tieto implements Comparable<Tieto> {
         }
     }
 
+     /*
+    * Kopiorakentajat
+    *
+     */
+
+    public Tieto(Tieto t) {
+        if (t instanceof Tieto) {
+            asetaNimi(new StringBuilder("copy_of_" + t.annaNimi()));
+        }
+    }
+
     /*
     * Aksessorit
     *
@@ -39,15 +50,6 @@ public abstract class Tieto implements Comparable<Tieto> {
 
     public StringBuilder annaNimi() {
         return this.nimi;
-    }
-
-    /*
-    * Kopiorakentajat
-    *
-     */
-
-    public Tieto(Tieto t) {
-        asetaNimi(t.annaNimi());
     }
 
     /*
