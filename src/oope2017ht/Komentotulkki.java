@@ -70,7 +70,7 @@ public class Komentotulkki extends Hakemisto {
         } else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);
         } else if (parametrit[0].equals("cp")) {
-            Tiedosto tiedosto = new Tiedosto(hae(parametrit[1]));
+            //Tiedosto tiedosto = new Tiedosto(hae(parametrit[1]));
         } else if (parametrit[0].equals("mv")) {
 
         } else if (parametrit[0].equals("exit")) {

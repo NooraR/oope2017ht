@@ -19,19 +19,6 @@ public class Tiedosto extends Tieto {
     *
      */
 
-   /* Tiedosto tiedosto = new Tiedosto(new StringBuilder("grumpy_cat.jpeg"), 335932);
-    Tiedosto kopio = new Tiedosto(tiedosto);
-    // 24
-    // grumpy_cat.jpeg 335932
-    // grumpy_cat.jpeg 335932
-    // true
-    // 0
-         System.out.println(tiedosto);
-         System.out.println(kopio);
-         System.out.println(tiedosto.equals(kopio));
-         System.out.println(tiedosto.compareTo(kopio));*/
-
-
     public Tiedosto() {
         super();
         this.asetaKoko(0);
@@ -44,10 +31,9 @@ public class Tiedosto extends Tieto {
 
     // Kopiorakentaja
 
-    public Tiedosto(Object t) {
-        //if (t instanceof Tiedosto) {
-            super((Tiedosto)t);
-        //}
+    public Tiedosto(Tiedosto t) {
+          super(t);
+          asetaKoko(t.annaKoko());
     }
 
     /*

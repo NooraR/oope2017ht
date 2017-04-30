@@ -1,6 +1,8 @@
 // OmaLista-luokan oletetaan olevan oope2017ht.omalista-pakkauksessa.
 package oope2017ht;
 
+import tiedot.*;
+
 // Otetaan käyttöön In-luokka.
 
 /*
@@ -21,6 +23,19 @@ package oope2017ht;
 public class Main extends Kayttoliittyma {
     public static void main(String[] args) {
         Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
-        kayttoliittyma.start();
+
+        Tiedosto tiedosto = new Tiedosto(new StringBuilder("grumpy_cat.jpeg"), 335932);
+        Tiedosto kopio = new Tiedosto(tiedosto);
+        // 24
+        // grumpy_cat.jpeg 335932
+        // grumpy_cat.jpeg 335932
+        // true
+        // 0
+        System.out.println(tiedosto);
+        System.out.println(kopio);
+        System.out.println(tiedosto.equals(kopio));
+        System.out.println(tiedosto.compareTo(kopio));
+
+        //kayttoliittyma.start();
     }
 }

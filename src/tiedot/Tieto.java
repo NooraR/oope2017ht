@@ -35,7 +35,7 @@ public abstract class Tieto implements Comparable<Tieto> {
 
     public Tieto(Tieto t) {
         if (t instanceof Tieto) {
-            asetaNimi(new StringBuilder("copy_of_" + t.annaNimi()));
+            asetaNimi(new StringBuilder(t.annaNimi()));
         }
     }
 
