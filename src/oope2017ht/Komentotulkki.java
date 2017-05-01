@@ -98,7 +98,7 @@ public class Komentotulkki extends Hakemisto {
             hakemistot[i] = null;
             i--;
         }
-g    }
+   }
 
     private void tulostaSisalto(LinkitettyLista lista) {
         if (lista != null) {
