@@ -64,7 +64,7 @@ public abstract class Tieto implements Comparable<Tieto> {
             if (tarkasteltava.charAt(i) >= 'a' && tarkasteltava.charAt(i) <= 'z'
                     || tarkasteltava.charAt(i) >= 'A' && tarkasteltava.charAt(i) <= 'Z'
                     || tarkasteltava.charAt(i) >= '0' && tarkasteltava.charAt(i) <= '0'
-                    || tarkasteltava.charAt(i) == '_' || tarkasteltava.charAt(i) == '.' || tarkasteltava.charAt(i) == '/') {
+                    || tarkasteltava.charAt(i) == '_' || tarkasteltava.charAt(i) == '.') {
             } else {
                 throw new IllegalArgumentException();
             }

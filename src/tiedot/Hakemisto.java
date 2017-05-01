@@ -26,8 +26,7 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      */
 
     public Hakemisto() {
-        super(new StringBuilder("/"));
-        asetaYlihakemisto(null);
+
     }
 
     public Hakemisto(StringBuilder annettuNimi, Hakemisto annettuYlihakemisto) throws IllegalArgumentException {

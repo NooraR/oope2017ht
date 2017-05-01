@@ -26,16 +26,7 @@ public class Main extends Kayttoliittyma {
 
         Tiedosto tiedosto = new Tiedosto(new StringBuilder("grumpy_cat.jpeg"), 335932);
         Tiedosto kopio = new Tiedosto(tiedosto);
-        // 24
-        // grumpy_cat.jpeg 335932
-        // grumpy_cat.jpeg 335932
-        // true
-        // 0
-        System.out.println(tiedosto);
-        System.out.println(kopio);
-        System.out.println(tiedosto.equals(kopio));
-        System.out.println(tiedosto.compareTo(kopio));
 
-        //kayttoliittyma.start();
+        kayttoliittyma.start();
     }
 }

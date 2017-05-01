@@ -98,10 +98,7 @@ public class Komentotulkki extends Hakemisto {
             hakemistot[i] = null;
             i--;
         }
-
-
-
-    }
+g    }
 
     private void tulostaSisalto(LinkitettyLista lista) {
         if (lista != null) {
@@ -136,9 +133,8 @@ public class Komentotulkki extends Hakemisto {
     }
 
     public void luoJuurihakemisto() {
-        nykyinenHakemisto = new Hakemisto();
+        nykyinenHakemisto = new Hakemisto(new StringBuilder("juuri"), null);
         juurihakemisto = nykyinenHakemisto;
-        lisaaPolkuun(nykyinenHakemisto.annaNimi().toString());
-
+        lisaaPolkuun("/");
     }
 }
