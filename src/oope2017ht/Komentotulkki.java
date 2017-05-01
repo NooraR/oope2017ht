@@ -56,8 +56,10 @@ public class Komentotulkki extends Hakemisto {
             } else {
                 tulosta("Ei mennyt mihinkaan");
             }
+
         } else if (parametrit[0].equals("ls")) {
-            if (!(parametrit[1].equals(null))) {
+
+            if (parametrit.length > 1) {
                 Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
                 tulostaSisalto(haettu.sisalto());
                 // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
@@ -65,14 +67,17 @@ public class Komentotulkki extends Hakemisto {
                 tulostaSisalto(nykyinenHakemisto.sisalto());
                 // listaa tämän hakemiston tiedostot ja alihakemistot
             }
+
         } else if (parametrit[0].equals("find")) {
 
         } else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);
         } else if (parametrit[0].equals("cp")) {
-            //Tiedosto tiedosto = new Tiedosto(hae(parametrit[1]));
+            Tiedosto tiedosto = new Tiedosto((Tiedosto)hae(parametrit[1]));
         } else if (parametrit[0].equals("mv")) {
-
+            /*nimeää tiedoston annetun nimiseksi uudeksi tiedostoksi, jos
+            nimellä löydetään tiedosto nykyhakemistosta ja hakemistossa ei ole
+            vielä uuden nimistä tiedostoa*/
         } else if (parametrit[0].equals("exit")) {
             return false;
         } else {
