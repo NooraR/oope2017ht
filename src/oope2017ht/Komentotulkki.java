@@ -46,7 +46,6 @@ public class Komentotulkki extends Hakemisto {
 
             } else if (parametrit.length > 1){
 
-                 tulosta("siirtyminen");
                  // Siirry annettuun hakemistoon
                  tulosta(parametrit[1]);
                  // aiheuttaa nullPointerin
@@ -64,11 +63,14 @@ public class Komentotulkki extends Hakemisto {
                 tulostaSisalto(haettu.sisalto());
                 // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
             } else {
+                // aiheuttaa NullPointerin
                 tulostaSisalto(nykyinenHakemisto.sisalto());
                 // listaa tämän hakemiston tiedostot ja alihakemistot
             }
 
         } else if (parametrit[0].equals("find")) {
+
+            //  listaa hakemiston rekursiivisesti esijärjestyksessä
 
         } else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);

@@ -30,22 +30,22 @@ public class Kayttoliittyma extends Komentotulkki {
                 annaSyote();
                 komento = In.readString();
                 jatketaanko = komentotulkki.paloittele(komento);
-            } catch (NullPointerException e) {
-                tulostaln(ERROR + "nullpointer");
             } catch (IllegalArgumentException e) {
-                tulostaln(ERROR + "illegal");
+                tulostaln(ERROR + "Illegal");
+            } catch (NullPointerException e) {
+                tulostaln(ERROR + "NullPointer");
             } catch (Exception e) {
-                tulostaln(ERROR + "kayttoliittyma");
+                tulostaln(ERROR);
             }
         }
     }
 
-    public void tulostaln(Object tulostettava) {
-        System.out.println(tulostettava);
-    }
-
     public void tulosta(Object tulostettava) {
         System.out.print(tulostettava);
+    }
+
+    public void tulostaln(Object tulostettava) {
+        System.out.println(tulostettava);
     }
 
     private void annaSyote() {
