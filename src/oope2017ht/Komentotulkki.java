@@ -55,7 +55,6 @@ public class Komentotulkki extends Hakemisto {
             // siirtyy nykyisen hakemiston ylihakemistoon
             else if (parametrit[1].equals("..")) {
                  nykyinenHakemisto = nykyinenHakemisto.annaYlihakemisto();
-                 tulostaln(nykyinenHakemisto);
                  paivitaPolku();
             }
             // siirtyy parametrina annettuun hakemistoon
@@ -137,21 +136,13 @@ public class Komentotulkki extends Hakemisto {
     private void paivitaPolku() {
         String[] hakemistot;
         hakemistot = polku.toString().split("/");
-        /*vertaillaan hakemistopolkua nykyiseen hakemistoon kunnes hakemistopolun viimeinen hakemisto on
-        nykyinen hakemisto */
-        tulostaln(hakemistot[0]);
-        tulostaln(nykyinenHakemisto);
-        int i;
-        for (i = 0; i < hakemistot.length; i++) {
-            if (hakemistot[i].equals(nykyinenHakemisto)) {
-                break;
-            }
-        }
+
+        /* tallennetaan uusiPolku-muuttujaan polku ilman viimeisintä hakemistoa */
         StringBuilder uusiPolku = new StringBuilder("");
-        /* uusi polku luodaan lisäämällä siihen hakemistoja kunnes viimeinen hakemisto on nykyhakemisto*/
-        for(int j = 0; j < i; j++) {
-            uusiPolku.append(hakemistot[j] + EROTIN);
+        for (int i = 0; i < hakemistot.length -1 ; i++) {
+            uusiPolku.append(hakemistot[i] + EROTIN);
         }
+
         /* asetetaan uusiPolku hakemistopoluksi */
         polku = uusiPolku;
    }
