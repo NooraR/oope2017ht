@@ -25,10 +25,10 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
     *
      */
 
-    public Hakemisto() {
+    //parametritön rakentaja
+    public Hakemisto() { }
 
-    }
-
+    // parametrillinen rakentaja
     public Hakemisto(StringBuilder annettuNimi, Hakemisto annettuYlihakemisto) throws IllegalArgumentException {
         super(annettuNimi);
         asetaYlihakemisto(annettuYlihakemisto);
