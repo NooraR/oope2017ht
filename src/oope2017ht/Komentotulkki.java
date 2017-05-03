@@ -60,7 +60,6 @@ public class Komentotulkki extends Hakemisto {
             // siirtyy parametrina annettuun hakemistoon
             else if (parametrit.length > 1){
                  if (nykyinenHakemisto.hae(parametrit[1]) != null) {
-                     // aiheuttaa nullPointerin
                      nykyinenHakemisto = (Hakemisto) nykyinenHakemisto.hae(parametrit[1]);
                      lisaaPolkuun(parametrit[1]);
                  }
@@ -91,7 +90,7 @@ public class Komentotulkki extends Hakemisto {
         }
         //  listaa hakemiston rekursiivisesti esijärjestyksessä
         else if (parametrit[0].equals("find")) {
-
+            kayLapi(juurihakemisto);
         }
         // poistaa parametrina annetun hakemiston tai tiedoston
         else if (parametrit[0].equals("rm")) {
@@ -120,6 +119,12 @@ public class Komentotulkki extends Hakemisto {
             tulostaln(ERROR + "Viimeisesta");
         }
         return true;
+    }
+
+    private void kayLapi(Hakemisto hakemisto) {
+        for (int i = 0; i < hakemisto.sisalto().length; i++) {
+            tulostaln();
+        }
     }
 
     /* tulostaa annetun syötteen ilman rivinvaihtoa */
@@ -165,18 +170,9 @@ public class Komentotulkki extends Hakemisto {
         }
     }
 
-    // palauttaa hakemistopolun
+    /* palauttaa hakemistopolun */
     public StringBuilder annaPolku() {
         return polku;
     }
 
-    // asettaa annetun hakemiston nykyiseksi hakemistoksi
-    public void asetaHakemisto(Hakemisto annettuHakemisto) {
-        nykyinenHakemisto = annettuHakemisto;
-    }
-
-    // palauttaa nykyisen hakemiston
-    public Hakemisto annaHakemisto() {
-        return nykyinenHakemisto;
-    }
 }
