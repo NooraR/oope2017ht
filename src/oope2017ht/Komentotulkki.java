@@ -90,7 +90,11 @@ public class Komentotulkki extends Hakemisto {
         }
         //  listaa hakemiston rekursiivisesti esijärjestyksessä
         else if (parametrit[0].equals("find")) {
-            kayLapi(juurihakemisto);
+            for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
+                tulostaln(juurihakemisto.sisalto().alkio(i));
+                kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
+            }
+            tulostaln("");
         }
         // poistaa parametrina annetun hakemiston tai tiedoston
         else if (parametrit[0].equals("rm")) {
@@ -122,8 +126,11 @@ public class Komentotulkki extends Hakemisto {
     }
 
     private void kayLapi(Hakemisto hakemisto) {
-        for (int i = 0; i < hakemisto.sisalto().length; i++) {
-            tulostaln();
+        for (int i = 0; i < hakemisto.sisalto().koko(); i++) {
+            tulosta(hakemisto.sisalto().alkio(i).toString() + EROTIN);
+            if (hakemisto.sisalto().alkio(i) instanceof Hakemisto) {
+                kayLapi((Hakemisto)hakemisto.sisalto().alkio(i));
+            }
         }
     }
 
