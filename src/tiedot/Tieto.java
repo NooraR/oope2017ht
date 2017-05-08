@@ -1,65 +1,114 @@
 package tiedot;
 
 /**
- * Created by weppi on 23.3.2017.
+ * Abstracti luokka Tieto joka toteuttaa Comparable<T>-rajapinnan. Luokan attribuutti on
+ * StringBuilder-tyyppinen nimi.
+ *
+ * Noora Rintamäki (rintamaki.noora.m@student.uta.fi), Informaatiotieteiden yksikkö
+ * (tietojenkäsittelytieteet), Tampereen yliopisto.
+ *
+ * Viimeksi muutettu 30.04.2017
+ *
  */
+
 public abstract class Tieto implements Comparable<Tieto> {
 
-    /*
-    * Attribuuttit
-    *
+    /**
+     * Attribuuttit
+     *
      */
 
-    // tiedoston tai hakemiston nimi
+    /**
+     * tiedoston tai hakemiston nimi
+     */
+
     private StringBuilder nimi;
 
-    /*
-    * Rakentajat
-    *
+    /**
+     * Rakentajat
+     *
      */
 
+    /**
+     * Parametriton rakentaja
+     */
     public Tieto() {
         asetaNimi(null);
     }
 
+    /**
+     * Parametrillinen rakentaja
+     *
+     * @param annettuNimi
+     * @throws IllegalArgumentException
+     */
     public Tieto(StringBuilder annettuNimi) throws IllegalArgumentException {
+        /**
+         * parametrin tarkistus
+         */
         if (nimiOk(annettuNimi)) {
             nimi = annettuNimi;
         }
     }
 
-     /*
-    * Kopiorakentajat
-    *
+    /**
+     * Kopiorakentaja
+     *
      */
 
+    /**
+     * Tieto-luokan kopiorakentaja
+     *
+     * @param t
+     */
     public Tieto(Tieto t) {
         if (t instanceof Tieto) {
             asetaNimi(new StringBuilder(t.annaNimi()));
         }
     }
 
-    /*
-    * Aksessorit
-    *
+    /**
+     * Aksessorit
+     *
      */
 
+    /**
+     * nimi-attribuutin setteri
+     *
+     * @param annettuNimi
+     * @throws IllegalArgumentException
+     */
     public void asetaNimi(StringBuilder annettuNimi) throws IllegalArgumentException {
         this.nimi = annettuNimi;
     }
 
+    /**
+     * nimi-attriuutin getteri
+     *
+     * @return StringBuilder-tyyppinen nimi
+     */
     public StringBuilder annaNimi() {
         return this.nimi;
     }
 
-    /*
-    * Metodit
-    *
+    /**
+     * Metodit
+     *
      */
 
+    /**
+     * nimi-attribuutin tarkistus
+     *
+     * @param annettuNimi
+     * @return
+     * @throws IllegalArgumentException
+     */
     private boolean nimiOk(StringBuilder annettuNimi) throws IllegalArgumentException {
         String tarkasteltava = annettuNimi.toString();
         boolean onOk = true;
+        /**
+         * parametrin sisältämien merkkien tarkistus
+         */
         for (int i = 0; i < tarkasteltava.length(); i++) {
             if (tarkasteltava.charAt(i) >= 'a' && tarkasteltava.charAt(i) <= 'z'
                     || tarkasteltava.charAt(i) >= 'A' && tarkasteltava.charAt(i) <= 'Z'
@@ -69,16 +118,26 @@ public abstract class Tieto implements Comparable<Tieto> {
                 throw new IllegalArgumentException();
             }
         }
-
         return onOk;
     }
 
-    // kirjoita uudestaan
+    /**
+     * toString-metodin korvaus
+     *
+     * @return alkion nimi String-muotoisena
+     */
     @Override
     public String toString() {
        return this.nimi.toString();
     }
 
+    /**
+     * equals-metodin uudelleenkirjoitus
+     *
+     * @param o
+     * @return true/false
+     */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Tieto) {
             if (this.annaNimi().toString().equals(((Tieto) o).annaNimi().toString())) {
@@ -88,6 +147,13 @@ public abstract class Tieto implements Comparable<Tieto> {
         return false;
     }
 
+    /**
+     * uudelleenkirjoittaa Comparaple-rajapinnan compareTo-metodin
+     *
+     * @param t
+     * @return 1 tai 0
+     */
+    @Override
     public int compareTo(Tieto t) {
         return this.annaNimi().toString().compareTo(t.annaNimi().toString());
     }

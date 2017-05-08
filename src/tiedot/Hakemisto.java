@@ -5,81 +5,112 @@ import omalista.OmaLista;
 import apulaiset.Komennettava;
 
 /**
- * Created by weppi on 31.3.2017.
+ * Hakemisto-luokka periytyy Tieto-luokasta ja toteuttaa Komennettava<T>-rajapinnan.
+ * Luokasta luodaan Hakemisto-olioita, joihin sisällytetään tallennetaan OmaLista-attribuutin
+ * avulla.
+ *
+ * Noora Rintamäki (rintamaki.noora.m@student.uta.fi), Informaatiotieteiden yksikkö
+ * (tietojenkäsittelytieteet), Tampereen yliopisto.
+ *
+ * Viimeksi muutettu 08.05.2017
+ *
  */
 
 public class Hakemisto extends Tieto implements Komennettava<Tieto> {
 
     private static final String VALIMERKKI = "/ ";
-    private static final String ERROR = "Error!";
 
-    /*
-    * Attribuutit
+    /**
+     * Attribuutit
      */
 
     private Hakemisto ylihakemisto;
     private OmaLista lista;
 
-    /*
-    * Rakentajat
-    *
+    /**
+     * Rakentajat
+     *
      */
 
-    //parametritön rakentaja
+    /**
+     * parametriton rakentaja
+     */
     public Hakemisto() { }
 
-    // parametrillinen rakentaja
+    /**
+     * parametrillinen rakentaja
+     *
+     * @param annettuNimi, annettuYlihakemisto
+     */
     public Hakemisto(StringBuilder annettuNimi, Hakemisto annettuYlihakemisto) throws IllegalArgumentException {
+        /**
+         * Kutsuu Tieto-luokan rakentajaa
+         */
         super(annettuNimi);
         asetaYlihakemisto(annettuYlihakemisto);
+        /**
+         * Luo OmaLista-attribuutin
+         */
         lista = new OmaLista();
     }
 
-    /*
-    * Aksessorit
-    *
+    /**
+     * Aksessorit
+     *
      */
 
+    /**
+     * ylihakemiston setteri
+     *
+     * @param annettuYlihakemisto
+     */
     public void asetaYlihakemisto(Hakemisto annettuYlihakemisto) throws IllegalArgumentException {
         ylihakemisto = annettuYlihakemisto;
     }
 
+    /**
+     * ylihakemiston getteri
+     *
+     * @return Hakemisto-tyyppinen ylihakemisto
+     */
     public Hakemisto annaYlihakemisto() {
         return ylihakemisto;
     }
 
-    /*
-    * Metodit
-    *
+    /**
+     * Metodit
+     *
      */
 
-    // toString-metodi
-
+    /**
+     * toString-metodin korvaus
+     *
+     * @return alkion nimi ja koko String-muotoisina
+     */
+    @Override
     public String toString() {
         return super.toString() + VALIMERKKI + lista.koko();
     }
 
-    /*
-    * Komennettava-rajapinnan toteutukset
-    *
+    /**
+     * Komennettava-rajapinnan toteutus
      */
 
-    /* Aksessori, joka antaa viitteen hakemiston sis�ll�n s�il�v��n listaan.
+    /**
+     * Aksessori, joka antaa viitteen hakemiston sisällön säilövään listaan.
      *
      * @return viite hakemisto-olion osaolioon.
-     *
      */
 
     public LinkitettyLista sisalto() {
         return lista;
     }
 
-    /** Hakee hakemistosta tiedostoa tai alihakemistoa. Hy�dynt�� OmaLista-luokan
-     * hae-operaatiota. Huomaa, ett� nime� k�ytt�en haun avuksi voidaan luoda
-     * v�liaikainen tiedosto tai hakemisto.
+    /** Hakee hakemistosta tiedostoa tai alihakemistoa. Hyödyntää OmaLista-luokan
+     * hae-operaatiota.
      *
      * @param nimi haettavan tiedon nimi.
-     * @return viite l�ydettyyn tietoon. Paluuarvo on null, jos tietoa ei l�ydet�.
+     * @return viite löydettyyn tietoon. Paluuarvo on null, jos tietoa ei löydetä.
      */
 
     public Tieto hae(String nimi) {
@@ -101,28 +132,30 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
         }
     }
 
-    /** Lis�� hakemistoon tiedoston tai alihakemiston. Hy�dynt�� OmaLista-luokan
+    /** Lisää hakemistoon tiedoston tai alihakemiston. Hyödyntää OmaLista-luokan
      * lisaa-operaatiota.
      *
-     * @param lisattava viite lis�tt�v��n tietoon.
-     * @return true, jos lis��minen onnistui ja false, jos tiedot on null-arvoinen
-     * tai hakemistossa on jo tiedot parametrina annetulla nimell�.
+     * @param lisattava viite lisättävään tietoon.
+     * @return true, jos lisääminen onnistui ja false, jos tiedot on null-arvoinen
+     * tai hakemistossa on jo tiedot parametrina annetulla nimellä.
      */
 
     public boolean lisaa(Tieto lisattava) {
         return lista.lisaa(lisattava);
     }
 
-    /** Poistaa hakemistosta tiedoston tai alihakemiston. Hy�dynt�� OmaLista-luokan
-     * poista-operaatiota. Huomaa, ett� nime� k�ytt�en poiston avuksi voidaan luoda
-     * v�liaikainen tiedosto tai hakemisto.
+    /** Poistaa hakemistosta tiedoston tai alihakemiston. Hyödyntää OmaLista-luokan
+     * poista-operaatiota.
      *
      * @param annettuNimi poistettavan tiedon nimi.
-     * @return viite poistettuun tietoon. Paluuarvo on null, jos tietoa ei l�ydet�.
+     * @return viite poistettuun tietoon. Paluuarvo on null, jos tietoa ei löydetä.
      */
 
     public Tieto poista(String annettuNimi) {
         if (annettuNimi != null) {
+            /**
+             * Luo uuden Tiedosto- ja Hakemisto-olion ja asettaa nimeksi saadun parametrin
+             */
             Tiedosto apuTiedosto = new Tiedosto((new StringBuilder(annettuNimi)), 0);
             Hakemisto apuHakemisto = new Hakemisto((new StringBuilder(annettuNimi)), null);
 

@@ -1,32 +1,22 @@
-// OmaLista-luokan oletetaan olevan oope2017ht.omalista-pakkauksessa.
 package oope2017ht;
 
-import tiedot.*;
-
-// Otetaan käyttöön In-luokka.
-
-/*
- * Harjoitustyö.
+/**
+ * Pitää sisällää Main-metodin.
  *
- * Olio-ohjelmoinnin perusteet, kevät 2017, Jorma Laurikkala, jorma.laurikkala@uta.fi.
+ * Noora Rintamäki (rintamaki.noora.m@student.uta.fi), Informaatiotieteiden yksikkö
+ * (tietojenkäsittelytieteet), Tampereen yliopisto.
  *
- * Omaa listaa testaava luokka, jota EI OLE SYYTÄ MUUTTAA MILLÄÄN TAVALLA,
- * koska WETO käyttää aina tämän luokan alkuperäistä versiota.
- *
- * Testit ovat main-metodissa. WETO käy läpi testit alla annetussa järjestyksessä.
- *
- * Aja luokka hakemistossa, jonka välittöminä alihakemistoina ovat oope2017ht-
- * apulaiset- ja lista-pakkausten hakemistot.
+ * Viimeksi muutettu 08.05.2017
  *
  */
 
 public class Main extends Kayttoliittyma {
     public static void main(String[] args) {
+        /** Luo Kayttoliittyma-olion
+         */
         Kayttoliittyma kayttoliittyma = new Kayttoliittyma();
-
-        Tiedosto tiedosto = new Tiedosto(new StringBuilder("grumpy_cat.jpeg"), 335932);
-        Tiedosto kopio = new Tiedosto(tiedosto);
-
+        /** Käynnistää ohjelman
+         */
         kayttoliittyma.start();
     }
 }

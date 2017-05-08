@@ -5,181 +5,214 @@ import fi.uta.csjola.oope.lista.LinkitettyLista;
 import tiedot.*;
 
 /**
- * Created by weppi on 31.3.2017.
+ * Komentotulkki pahoittelee, tulkitsee ja toteuttaa parametrina saadun käskyn.
+ *
+ * Komentotulkki periytyy Hakemisto-luokasta ja luo ja/tai hallinnoi hakemistoja ja tiedostoja.
+ *
+ * Noora Rintamäki (rintamaki.noora.m@student.uta.fi), Informaatiotieteiden yksikkö
+ * (tietojenkäsittelytieteet), Tampereen yliopisto.
+ *
+ * Viimeksi muutettu 30.04.2017
+ *
  */
+
 public class Komentotulkki extends Hakemisto {
 
     private static final String ERROR = "Error!";
     private static final String EROTIN = "/";
-    private Hakemisto nykyinenHakemisto;
+    private Hakemisto nykyinenHakemisto = null;
     private StringBuilder polku = new StringBuilder();
     private Hakemisto juurihakemisto;
 
-    // luo juurihakemiston
-    public boolean luoJuurihakemisto() {
-        nykyinenHakemisto = new Hakemisto(new StringBuilder("juuri"), null);
-        juurihakemisto = nykyinenHakemisto;
-        lisaaPolkuun("/");
-        return true;
-    }
-
-    // pilkkoo syötteen osiin ja lähettää eteenpäin tulkittavaksi
+    /** Paloittelee parametrina saadun syötteen yksittäisiksi
+     * syötteiksi ja lähettää ne parametrina tulkitse-luokalle
+     *
+     * @param syote
+     * @return tulkitse(parametrit)
+     *
+     */
     public boolean paloittele(String syote) {
         String[] parametrit;
         parametrit = syote.split(" ");
         return tulkitse(parametrit);
     }
 
-    // erittelee mitä komento pitää sisällään
+    /** vastaanottaa parametrina String-muotoisen taulukon, tulkitsee
+     * parametrien sisällön ja toteuttaa halutun komennon.
+     *
+     * @param parametrit
+     * @return true/false
+     *
+     */
     private boolean tulkitse(String[] parametrit) {
-        // luo uuden hakemiston
+        /** luodaan uusi Hakemisto, jonka nimeksi asetetaan
+         * parametrina annetusta nimestä tehty StringBuilder-olio
+         */
         if (parametrit[0].equals("md")) {
-            // nykyinen hakemisto toiseksi parametriksi
-            nykyinenHakemisto.lisaa(new Hakemisto(new StringBuilder(parametrit[1]), nykyinenHakemisto));
+            Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), nykyinenHakemisto);
         }
-        // luo uuden tiedoston
+        /** Luodaan uusi Tiedosto, jonka nimeksi asetetaan parametrina
+         * annetusta nimestä tehty StringBuilder-olio
+         */
         else if (parametrit[0].equals("mf")) {
-            if (parametrit.length > 2) {
-                nykyinenHakemisto.lisaa(new Tiedosto(new StringBuilder(parametrit[1]), Integer.parseInt(parametrit[2])));
-            } else {
-                tulostaln("ei parametreja");
-            }
+            Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
         }
-        // siirtyy haluttuun hakemistoon
+        /** siirrytään parametrien määrittämään tiedostoon
+         */
         else if (parametrit[0].equals("cd")) {
-            // siirtyy juurihakemistoon
+            /** parametria ei ole, siirrytään juurihakemistoon
+             */
              if (parametrit.length < 2) {
                  nykyinenHakemisto = juurihakemisto;
                  polku = new StringBuilder("/");
             }
-            // siirtyy nykyisen hakemiston ylihakemistoon
+            /** jos parametri on kaksi pistettä (..) siirrytään nykyisen
+             * hakemiston ylihakemistoon
+             */
             else if (parametrit[1].equals("..")) {
-                 nykyinenHakemisto = nykyinenHakemisto.annaYlihakemisto();
+                 nykyinenHakemisto = this.annaYlihakemisto();
                  paivitaPolku();
             }
-            // siirtyy parametrina annettuun hakemistoon
+            /** siirrytään parametrina annettuun hakemistoon
+             */
             else if (parametrit.length > 1){
-                 if (nykyinenHakemisto.hae(parametrit[1]) != null) {
-                     nykyinenHakemisto = (Hakemisto) nykyinenHakemisto.hae(parametrit[1]);
-                     lisaaPolkuun(parametrit[1]);
-                 }
-            }
-            // virheellinen
-            else {
-                tulosta("Ei mennyt mihinkaan");
+                 tulosta(parametrit[1]);
+                 nykyinenHakemisto = (Hakemisto)nykyinenHakemisto.hae(parametrit[1]);
+                 lisaaPolkuun(parametrit[1]);
             }
         }
-        // listaa halutun hakemiston alihakemistot ja tiedostot
+        /** Listaa parametrina saadun hakemiston sisällön. Jos käyttäjä
+         * ei ole antanut parametria, listataa nykyisen hakemiston sisältö
+         */
         else if (parametrit[0].equals("ls")) {
-            // listaa parametrina annetun hakemiston alihakemistot ja tiedostot
+            /** Hakee parametrina saadun nimisen hakemiston ja tulostaa sen sisällön
+             */
             if (parametrit.length > 1) {
                 Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
                 tulostaSisalto(haettu.sisalto());
-                // hae parametrin nimisen tiedoston kaikki tiedostot ja alihakemistot listana
             }
-            // listaa nykyisen hakemiston alihakemistot ja tiedostot
+            /** tulostaa nykyisen hakemiston sisällön
+             */
             else {
-                if (nykyinenHakemisto != null) {
-                    // aiheuttaa NullPointerin
-                    tulostaSisalto(nykyinenHakemisto.sisalto());
-                    // listaa tämän hakemiston tiedostot ja alihakemistot
-                } else {
-                    tulosta("nykyH == null");
-                }
+                tulostaSisalto(nykyinenHakemisto.sisalto());
             }
         }
-        //  listaa hakemiston rekursiivisesti esijärjestyksessä
+        /** listaa hakemiston rekursiivisesti esittämisjärjestyksessä
+         */
         else if (parametrit[0].equals("find")) {
-            for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
-                tulostaln(juurihakemisto.sisalto().alkio(i));
-                kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
-            }
-            tulostaln("");
+
+            //  listaa hakemiston rekursiivisesti esijärjestyksessä
+
         }
-        // poistaa parametrina annetun hakemiston tai tiedoston
+        /** Poistaa parametrina annetun nimisen tiedoston
+         */
         else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);
         }
-        // luo kopion annetusta tiedostosta
+        /** Luo kopion parametrina annetusta Tiedostosta
+         */
         else if (parametrit[0].equals("cp")) {
-            nykyinenHakemisto.lisaa(new Tiedosto(new StringBuilder(parametrit[2]),((Tiedosto)nykyinenHakemisto.hae(parametrit[1])).annaKoko()));
+            Tiedosto tiedosto = new Tiedosto((Tiedosto)hae(parametrit[1]));
         }
-        // muuttaa tiedoston nimen annetuksi jos kyseinen
+        /** Uudelleennimeää annetun nimisen tiedoston parametrina annetulla nimellä
+         */
         else if (parametrit[0].equals("mv")) {
-            if (parametrit.length > 2) {
-                if (nykyinenHakemisto.hae(parametrit[1]) != null) {
-                    nykyinenHakemisto.hae(parametrit[1]).asetaNimi(new StringBuilder(parametrit[2]));
-                }
-            } else {
-                tulosta("parametri puuttuu");
-            }
+            /** nimeää tiedoston annetun nimiseksi uudeksi tiedostoksi, jos
+             * nimellä löydetään tiedosto nykyhakemistosta ja hakemistossa ei ole
+             * vielä uuden nimistä tiedostoa
+             */
         }
-        // poistuu ohjelmasta
+        /** Lopettaa ohjelman
+         */
         else if (parametrit[0].equals("exit")) {
             return false;
-        }
-        // ei pysty tulkitsemaan komentoa
-        else {
-            tulostaln(ERROR + "Viimeisesta");
         }
         return true;
     }
 
-    private void kayLapi(Hakemisto hakemisto) {
-        for (int i = 0; i < hakemisto.sisalto().koko(); i++) {
-            tulosta(hakemisto.sisalto().alkio(i).toString() + EROTIN);
-            if (hakemisto.sisalto().alkio(i) instanceof Hakemisto) {
-                kayLapi((Hakemisto)hakemisto.sisalto().alkio(i));
-            }
-        }
-    }
-
-    /* tulostaa annetun syötteen ilman rivinvaihtoa */
+    /** tulostaa parametrina annetun syötteen
+     *
+     * @param tulostettava
+     */
     private void tulosta(String tulostettava) {
-        System.out.print(tulostettava);
+        System.out.println(tulostettava);
     }
 
-    /* tulostaa annetun syötteen rivinvaihdolla */
+    /** tulostaa parametrina annetun syötteen ja rivinvaihdon
+     *
+     * @param tulostettava
+     */
     private void tulostaln(Object tulostettava) {
         System.out.println(tulostettava);
     }
 
-    /* päivittää hakemistopolun ajantasalle */
+    /** Päivittää polun niin, että uusi nykyinenHakemisto on
+     * polun viimeinen hakemisto
+     */
     private void paivitaPolku() {
+        /** Esittelee String-muotoisen hakemistot-taulukon
+         */
         String[] hakemistot;
+        /** paloittelee polun yksittäisiin hakemistoihin
+         */
         hakemistot = polku.toString().split("/");
 
-        /* tallennetaan uusiPolku-muuttujaan polku ilman viimeisintä hakemistoa */
-        StringBuilder uusiPolku = new StringBuilder("");
-        for (int i = 0; i < hakemistot.length -1 ; i++) {
-            uusiPolku.append(hakemistot[i] + EROTIN);
+        int i = hakemistot.length;
+        /** poistaa hakemistoja polusta, kunnes nykyinenHakemisto on
+         * polun viimeinen hakemisto
+         */
+        while (!(hakemistot[i].equals(nykyinenHakemisto))) {
+            hakemistot[i] = null;
+            i--;
         }
-
-        /* asetetaan uusiPolku hakemistopoluksi */
-        polku = uusiPolku;
    }
 
-   /* tulostaa LinkitettyLista-muotoisen sisällön */
-   private static void tulostaSisalto(LinkitettyLista lista) {
-       if (lista != null) {
-           for (int i = 0; i < lista.koko(); i++) {
-               System.out.println(lista.alkio(i));
-           }
-       }
-   }
+   /** tulostaa parametrina saadun LinkitettyLista-sisällön
+    *
+    * @param lista
+    */
+    private void tulostaSisalto(LinkitettyLista lista) {
+        /** tarkistaa, että parametrina saatu lista ei ole null-arvoinen
+         */
+        if (lista != null) {
+            /** Käy läpi listaa ja tulostaa sen alkiot
+             */
+            for (int i = 0; i < lista.koko(); i++) {
+                System.out.print(lista.alkio(i));
+            }
+        }
+    }
 
-    /* lisää hakemistopolkuun uuden hakemiston */
+    /** lisää polkuun saadun parametrin
+     *
+     * @param lisays
+     */
     private void lisaaPolkuun(String lisays) {
+        /** jos kyseessä on juurihakemiston symboli
+         */
         if (lisays.equals("/")) {
             polku.append(lisays);
-        } else {
+        }
+        /** lisätessä muuta kuin juurihakemiston symbolia
+         */
+        else {
             polku.append(lisays + EROTIN);
         }
     }
 
-    /* palauttaa hakemistopolun */
+    /** Palauttaa StringBuilder-tyyppisen polun
+     *
+     * @return polku
+     */
     public StringBuilder annaPolku() {
         return polku;
     }
 
+    /** luo juurihakemiston
+     */
+    public void luoJuurihakemisto() {
+        nykyinenHakemisto = new Hakemisto(new StringBuilder("juuri"), null);
+        juurihakemisto = nykyinenHakemisto;
+        lisaaPolkuun("/");
+    }
 }
