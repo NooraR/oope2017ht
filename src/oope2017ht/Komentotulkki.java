@@ -1,6 +1,5 @@
 package oope2017ht;
 
-
 import fi.uta.csjola.oope.lista.LinkitettyLista;
 import tiedot.*;
 
@@ -45,18 +44,21 @@ public class Komentotulkki extends Hakemisto {
      *
      */
     private boolean tulkitse(String[] parametrit) {
+
         /** luodaan uusi Hakemisto, jonka nimeksi asetetaan
          * parametrina annetusta nimestä tehty StringBuilder-olio
          */
         if (parametrit[0].equals("md")) {
-            Hakemisto hakemisto = new Hakemisto(new StringBuilder(parametrit[0]), nykyinenHakemisto);
+            nykyinenHakemisto.lisaa(new Hakemisto(new StringBuilder(parametrit[1]), nykyinenHakemisto));
         }
+
         /** Luodaan uusi Tiedosto, jonka nimeksi asetetaan parametrina
          * annetusta nimestä tehty StringBuilder-olio
          */
         else if (parametrit[0].equals("mf")) {
             Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
         }
+
         /** siirrytään parametrien määrittämään tiedostoon
          */
         else if (parametrit[0].equals("cd")) {
@@ -70,17 +72,19 @@ public class Komentotulkki extends Hakemisto {
              * hakemiston ylihakemistoon
              */
             else if (parametrit[1].equals("..")) {
-                 nykyinenHakemisto = this.annaYlihakemisto();
+                 nykyinenHakemisto = nykyinenHakemisto.annaYlihakemisto();
                  paivitaPolku();
             }
             /** siirrytään parametrina annettuun hakemistoon
              */
             else if (parametrit.length > 1){
-                 tulosta(parametrit[1]);
-                 nykyinenHakemisto = (Hakemisto)nykyinenHakemisto.hae(parametrit[1]);
-                 lisaaPolkuun(parametrit[1]);
+                if (nykyinenHakemisto.hae(parametrit[1]) != null) {
+                    nykyinenHakemisto = (Hakemisto) nykyinenHakemisto.hae(parametrit[1]);
+                    lisaaPolkuun(parametrit[1]);
+                }
             }
         }
+
         /** Listaa parametrina saadun hakemiston sisällön. Jos käyttäjä
          * ei ole antanut parametria, listataa nykyisen hakemiston sisältö
          */
@@ -97,31 +101,40 @@ public class Komentotulkki extends Hakemisto {
                 tulostaSisalto(nykyinenHakemisto.sisalto());
             }
         }
+
         /** listaa hakemiston rekursiivisesti esittämisjärjestyksessä
          */
         else if (parametrit[0].equals("find")) {
-
-            //  listaa hakemiston rekursiivisesti esijärjestyksessä
-
+            for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
+                tulostaln(juurihakemisto.sisalto().alkio(i));
+                kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
+            }
         }
+
         /** Poistaa parametrina annetun nimisen tiedoston
          */
         else if (parametrit[0].equals("rm")) {
             poista(parametrit[1]);
         }
+
         /** Luo kopion parametrina annetusta Tiedostosta
          */
         else if (parametrit[0].equals("cp")) {
             Tiedosto tiedosto = new Tiedosto((Tiedosto)hae(parametrit[1]));
         }
+
         /** Uudelleennimeää annetun nimisen tiedoston parametrina annetulla nimellä
          */
         else if (parametrit[0].equals("mv")) {
-            /** nimeää tiedoston annetun nimiseksi uudeksi tiedostoksi, jos
+            /** nimeää tiedoston annetun nimiseksi tiedostoksi, jos
              * nimellä löydetään tiedosto nykyhakemistosta ja hakemistossa ei ole
              * vielä uuden nimistä tiedostoa
              */
+            if (hae(parametrit[1]) instanceof Tiedosto) {
+                hae(parametrit[1]).asetaNimi(new StringBuilder(parametrit[2]));
+            }
         }
+
         /** Lopettaa ohjelman
          */
         else if (parametrit[0].equals("exit")) {
@@ -130,12 +143,49 @@ public class Komentotulkki extends Hakemisto {
         return true;
     }
 
+    /**
+     * Käy läpi parametrina annetun Hakemiston sisällön tulostaen sen ja käyden läpi myös Hakemistojen
+     * alihakemistot.
+     *
+     * @param hakemisto
+     */
+    private void kayLapi(Hakemisto hakemisto) {
+        for (int i = 0; i < hakemisto.sisalto().koko(); i++) {
+            tulosta(tulostaHakemistopolku(hakemisto.sisalto().alkio(i)));
+            tulostaln(hakemisto.sisalto().alkio(i).toString());
+            if (hakemisto.sisalto().alkio(i) instanceof Hakemisto) {
+               kayLapi((Hakemisto)hakemisto.sisalto().alkio(i));
+            }
+        }
+    }
+
+    /**
+     * Jos parametri ei ole null, metodi hakee parametrin ylähakemistoja aina juurihakemistoon asti
+     * ja lisää hakemistojen nimet ketjuksi hakemistopolku-nimiseen muuttujaan, jonka metodi palauttaa.
+     *
+     * @param viimeinen
+     * @return String-tyyppinen hakemistopolku-muuttuja
+     */
+    private String tulostaHakemistopolku(Object viimeinen) {
+        String hakemistopolku = "";
+        while (viimeinen != null) {
+            viimeinen = ((Hakemisto)viimeinen).annaYlihakemisto();
+            if (viimeinen.equals(juurihakemisto)) {
+                break;
+            }
+            else {
+                hakemistopolku = ((Tieto) viimeinen).annaNimi().toString() + EROTIN + hakemistopolku;
+            }
+        }
+        return hakemistopolku;
+    }
+
     /** tulostaa parametrina annetun syötteen
      *
      * @param tulostettava
      */
-    private void tulosta(String tulostettava) {
-        System.out.println(tulostettava);
+    private void tulosta(Object tulostettava) {
+        System.out.print(tulostettava);
     }
 
     /** tulostaa parametrina annetun syötteen ja rivinvaihdon

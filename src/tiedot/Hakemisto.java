@@ -1,7 +1,7 @@
 package tiedot;
 
 import fi.uta.csjola.oope.lista.LinkitettyLista;
-import omalista.OmaLista;
+import oope2017ht.omalista.OmaLista;
 import apulaiset.Komennettava;
 
 /**

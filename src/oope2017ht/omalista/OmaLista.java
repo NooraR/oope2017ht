@@ -1,4 +1,4 @@
-package omalista;
+package oope2017ht.omalista;
 
 import apulaiset.Ooperoiva;
 import fi.uta.csjola.oope.lista.LinkitettyLista;

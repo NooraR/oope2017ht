@@ -19,10 +19,17 @@ import apulaiset.In;
 
 public class Kayttoliittyma extends Komentotulkki {
 
+    /**
+     * Valmiit tulosteet.
+     */
     private static final String ERROR = "Error!";
     private static final String TERVETULOA = "Welcome to SOS.";
     private static final String KIRJOITA = ">";
     private static final String LOPETUS = "Shell terminated.";
+
+    /**
+     * Komentotulkki-olio.
+     */
     private Komentotulkki komentotulkki = new Komentotulkki();
 
     /*
