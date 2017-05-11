@@ -1,4 +1,4 @@
-package tiedot;
+package oope2017ht.tiedot;
 
 /**
  * Tiedosto periytyy Tieto-luokasta. Tiedosto-olion attribuutti on koko (int).

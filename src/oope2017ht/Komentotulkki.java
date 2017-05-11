@@ -1,7 +1,7 @@
 package oope2017ht;
 
 import fi.uta.csjola.oope.lista.LinkitettyLista;
-import tiedot.*;
+import oope2017ht.tiedot.*;
 
 /**
  * Komentotulkki pahoittelee, tulkitsee ja toteuttaa parametrina saadun käskyn.
@@ -12,6 +12,10 @@ import tiedot.*;
  * (tietojenkäsittelytieteet), Tampereen yliopisto.
  *
  * Viimeksi muutettu 30.04.2017
+ *
+ *
+ * KORJAA FIND ASSIGMENT ERRORS
+ *
  *
  */
 
@@ -49,14 +53,31 @@ public class Komentotulkki extends Hakemisto {
          * parametrina annetusta nimestä tehty StringBuilder-olio
          */
         if (parametrit[0].equals("md")) {
-            nykyinenHakemisto.lisaa(new Hakemisto(new StringBuilder(parametrit[1]), nykyinenHakemisto));
+            if (parametrit.length > 1 && parametrit.length < 3
+                && nykyinenHakemisto.nimiOk(new StringBuilder(parametrit[1]))) {
+                Hakemisto apu = nykyinenHakemisto;
+                nykyinenHakemisto.lisaa(new Hakemisto(new StringBuilder(parametrit[1]), nykyinenHakemisto));
+                asetaYlihakemisto(apu);
+            }
+            else {
+                tulostaln(ERROR);
+            }
         }
 
         /** Luodaan uusi Tiedosto, jonka nimeksi asetetaan parametrina
          * annetusta nimestä tehty StringBuilder-olio
          */
         else if (parametrit[0].equals("mf")) {
-            Tiedosto tiedosto = new Tiedosto(new StringBuilder(parametrit[0]), Integer.parseInt(parametrit[1]));
+            if (parametrit.length > 2 && parametrit.length < 4) {
+                int apu = muutaNumeroksi(parametrit[2]);
+                if (nykyinenHakemisto.nimiOk(new StringBuilder(parametrit[1])) && apu >= 0) {
+                    nykyinenHakemisto.lisaa(new Tiedosto(new StringBuilder(parametrit[1]), apu));
+                } else {
+                    tulostaln(ERROR);
+                }
+            } else {
+                tulostaln(ERROR);
+            }
         }
 
         /** siirrytään parametrien määrittämään tiedostoon
@@ -65,23 +86,37 @@ public class Komentotulkki extends Hakemisto {
             /** parametria ei ole, siirrytään juurihakemistoon
              */
              if (parametrit.length < 2) {
+                 if (nykyinenHakemisto.equals(juurihakemisto))
+                     tulostaln(ERROR);
                  nykyinenHakemisto = juurihakemisto;
-                 polku = new StringBuilder("/");
+                 polku.setLength(0);
+                 polku.append("/");
             }
             /** jos parametri on kaksi pistettä (..) siirrytään nykyisen
              * hakemiston ylihakemistoon
              */
             else if (parametrit[1].equals("..")) {
-                 nykyinenHakemisto = nykyinenHakemisto.annaYlihakemisto();
-                 paivitaPolku();
+                 if (nykyinenHakemisto.equals(juurihakemisto)) {
+                     tulostaln(ERROR);
+                 }
+                 else {
+                     nykyinenHakemisto = nykyinenHakemisto.annaYlihakemisto();
+                     paivitaPolku();
+                 }
             }
             /** siirrytään parametrina annettuun hakemistoon
              */
-            else if (parametrit.length > 1){
+            else if (parametrit.length > 1 && parametrit.length < 3){
                 if (nykyinenHakemisto.hae(parametrit[1]) != null) {
                     nykyinenHakemisto = (Hakemisto) nykyinenHakemisto.hae(parametrit[1]);
                     lisaaPolkuun(parametrit[1]);
                 }
+                else {
+                    tulostaln(ERROR);
+                }
+            }
+            else {
+                tulostaln(ERROR);
             }
         }
 
@@ -91,9 +126,18 @@ public class Komentotulkki extends Hakemisto {
         else if (parametrit[0].equals("ls")) {
             /** Hakee parametrina saadun nimisen hakemiston ja tulostaa sen sisällön
              */
-            if (parametrit.length > 1) {
-                Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
-                tulostaSisalto(haettu.sisalto());
+            if (parametrit.length > 1 && parametrit.length < 3) {
+                if (nykyinenHakemisto.hae(parametrit[1]) != null) {
+                    if (nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto) {
+                        tulostaln(nykyinenHakemisto.hae(parametrit[1]));
+                    } else {
+                        Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
+                        tulostaSisalto(haettu.sisalto());
+                    }
+                }
+                else {
+                    tulostaln(ERROR);
+                }
             }
             /** tulostaa nykyisen hakemiston sisällön
              */
@@ -105,22 +149,46 @@ public class Komentotulkki extends Hakemisto {
         /** listaa hakemiston rekursiivisesti esittämisjärjestyksessä
          */
         else if (parametrit[0].equals("find")) {
-            for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
-                tulostaln(juurihakemisto.sisalto().alkio(i));
-                kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
+            if (parametrit.length < 2) {
+                for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
+                    tulostaln(EROTIN + juurihakemisto.sisalto().alkio(i));
+                    /**
+                     * mikään ei todennäköisesti mene if:iin
+                     */
+                    if (juurihakemisto.sisalto().alkio(i) instanceof Hakemisto)
+                        kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
+                }
             }
+            else {
+                tulostaln(ERROR);
+            }
+
         }
 
         /** Poistaa parametrina annetun nimisen tiedoston
          */
         else if (parametrit[0].equals("rm")) {
-            poista(parametrit[1]);
+            if (parametrit.length > 1 && parametrit.length < 3 && nykyinenHakemisto.hae(parametrit[1]) != null)
+                nykyinenHakemisto.poista(parametrit[1]);
+            else
+                tulostaln(ERROR);
         }
 
         /** Luo kopion parametrina annetusta Tiedostosta
          */
         else if (parametrit[0].equals("cp")) {
-            Tiedosto tiedosto = new Tiedosto((Tiedosto)hae(parametrit[1]));
+            /**
+             * Tarkistaa, että hakemistosta löytyy kopioitava tiedosto ja että hakemistosta ei löydy uuden nimistä
+             * tiedostoa.
+             */
+            if (nykyinenHakemisto.hae(parametrit[1]) != null && nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto
+                && nykyinenHakemisto.hae(parametrit[2]) == null) {
+                int kopioKoko = ((Tiedosto) nykyinenHakemisto.hae(parametrit[1])).annaKoko();
+                nykyinenHakemisto.lisaa(new Tiedosto(new StringBuilder(parametrit[2]), kopioKoko));
+            }
+            else {
+                tulostaln(ERROR);
+            }
         }
 
         /** Uudelleennimeää annetun nimisen tiedoston parametrina annetulla nimellä
@@ -130,8 +198,12 @@ public class Komentotulkki extends Hakemisto {
              * nimellä löydetään tiedosto nykyhakemistosta ja hakemistossa ei ole
              * vielä uuden nimistä tiedostoa
              */
-            if (hae(parametrit[1]) instanceof Tiedosto) {
-                hae(parametrit[1]).asetaNimi(new StringBuilder(parametrit[2]));
+            if (nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto
+                && nykyinenHakemisto.hae(parametrit[2]) == null) {
+                nykyinenHakemisto.hae(parametrit[1]).asetaNimi(new StringBuilder(parametrit[2]));
+            }
+            else {
+                tulostaln(ERROR);
             }
         }
 
@@ -140,7 +212,31 @@ public class Komentotulkki extends Hakemisto {
         else if (parametrit[0].equals("exit")) {
             return false;
         }
+        /**
+         * Jos komento on virheellinen, tulostaa ERROR:in.
+         */
+        else {
+            tulostaln(ERROR);
+        }
         return true;
+    }
+
+    /**
+     * Muuttaa String-tyyppisen muuttajan vastaavaksi Integer-tyyppiseksi muuttujaksi.
+     *
+     * @param numero
+     * @return
+     */
+
+    private int muutaNumeroksi(String numero) {
+        for (int i = 0; i < numero.length(); i++) {
+            if (numero.charAt(i) >= '0' && numero.charAt(i) <= '9') {
+
+            } else {
+                return -1;
+            }
+        }
+        return Integer.parseInt(numero);
     }
 
     /**
@@ -207,13 +303,26 @@ public class Komentotulkki extends Hakemisto {
          */
         hakemistot = polku.toString().split("/");
 
-        int i = hakemistot.length;
-        /** poistaa hakemistoja polusta, kunnes nykyinenHakemisto on
-         * polun viimeinen hakemisto
-         */
-        while (!(hakemistot[i].equals(nykyinenHakemisto))) {
-            hakemistot[i] = null;
-            i--;
+        if (hakemistot.length < 3) {
+            polku.setLength(0);
+            polku.append("/");
+        }
+        else {
+            int i = hakemistot.length -1;
+            /** poistaa hakemistoja polusta, kunnes nykyinenHakemisto on
+             * polun viimeinen hakemisto
+             */
+            while (!(hakemistot[i].equals((nykyinenHakemisto).annaNimi().toString()))) {
+                hakemistot[i] = null;
+                i--;
+            }
+
+            polku.setLength(1);
+
+            for (int j = hakemistot.length -1; j > 0; j--) {
+                if (hakemistot[j] != null)
+                    polku.append(hakemistot[j] + EROTIN);
+            }
         }
    }
 
@@ -228,7 +337,7 @@ public class Komentotulkki extends Hakemisto {
             /** Käy läpi listaa ja tulostaa sen alkiot
              */
             for (int i = 0; i < lista.koko(); i++) {
-                System.out.print(lista.alkio(i));
+                tulostaln(lista.alkio(i));
             }
         }
     }

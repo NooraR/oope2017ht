@@ -1,4 +1,4 @@
-package tiedot;
+package oope2017ht.tiedot;
 
 import fi.uta.csjola.oope.lista.LinkitettyLista;
 import oope2017ht.omalista.OmaLista;
@@ -136,8 +136,8 @@ public class Hakemisto extends Tieto implements Komennettava<Tieto> {
      * lisaa-operaatiota.
      *
      * @param lisattava viite lisättävään tietoon.
-     * @return true, jos lisääminen onnistui ja false, jos tiedot on null-arvoinen
-     * tai hakemistossa on jo tiedot parametrina annetulla nimellä.
+     * @return true, jos lisääminen onnistui ja false, jos oope2017ht.tiedot on null-arvoinen
+     * tai hakemistossa on jo oope2017ht.tiedot parametrina annetulla nimellä.
      */
 
     public boolean lisaa(Tieto lisattava) {

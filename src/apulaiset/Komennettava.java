@@ -36,8 +36,8 @@ public interface Komennettava<T> {
      * lisaa-operaatiota.
      *
      * @param lisattava viite lis�tt�v��n tietoon.
-     * @return true, jos lis��minen onnistui ja false, jos tiedot on null-arvoinen
-     * tai hakemistossa on jo tiedot parametrina annetulla nimell�.
+     * @return true, jos lis��minen onnistui ja false, jos oope2017ht.tiedot on null-arvoinen
+     * tai hakemistossa on jo oope2017ht.tiedot parametrina annetulla nimell�.
      */
    abstract public boolean lisaa(T lisattava);
 

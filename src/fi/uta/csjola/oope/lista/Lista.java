@@ -23,13 +23,13 @@ public interface Lista {
 
    /** Lis�� uuden solmun linkitetyn listan alkuun.
      *
-     * @param alkio lis�tt�v� tiedot.
+     * @param alkio lis�tt�v� oope2017ht.tiedot.
      */
    public abstract void lisaaAlkuun(Object alkio);
 
    /** Lis�� uuden solmun linkitetyn listan loppuun.
      *
-     * @param alkio lis�tt�v� tiedot.
+     * @param alkio lis�tt�v� oope2017ht.tiedot.
      */
    public abstract void lisaaLoppuun(Object alkio);
 
@@ -38,7 +38,7 @@ public interface Lista {
      * siirtyv�t yhden paikan h�nn�n suuntaan.
      *
      * @param paikka lis�yspaikka.
-     * @param alkio lis�tt�v� tiedot.
+     * @param alkio lis�tt�v� oope2017ht.tiedot.
      * @return totuusarvo, joka ilmaisee lis�yksen onnistumisen.
      */
    public abstract boolean lisaa(int paikka, Object alkio);

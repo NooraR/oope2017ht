@@ -50,7 +50,7 @@ public class Kayttoliittyma extends Komentotulkki {
         /* pyörittää ohjelmaa, kunnes käyttäjä antaa lopettamiskäskyn
          */
         while (jatketaanko) {
-            try {
+            //try {
                 /* tulostaa polun ja syötekehotteen
                  */
                 tulosta(komentotulkki.annaPolku());
@@ -61,13 +61,9 @@ public class Kayttoliittyma extends Komentotulkki {
                 /* lähettää syötteen Komentotulkille
                  */
                 jatketaanko = komentotulkki.paloittele(komento);
-            } catch (IllegalArgumentException e) {
-                tulostaln(ERROR + "Illegal");
-            } catch (NullPointerException e) {
-                tulostaln(ERROR + "NullPointer");
-            } /*catch (Exception e) {
-                tulostaln(ERROR);
-            }*/
+            //} catch (Exception e) {
+            //    tulostaln(ERROR);
+            //}
         }
         /* tulostaa lopetustekstin
          */

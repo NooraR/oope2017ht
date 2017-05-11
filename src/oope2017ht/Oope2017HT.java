@@ -1,7 +1,7 @@
 package oope2017ht;
 
 /**
- * Pitää sisällää Main-metodin.
+ * Pitää sisällää Oope2017HT-metodin.
  *
  * Noora Rintamäki (rintamaki.noora.m@student.uta.fi), Informaatiotieteiden yksikkö
  * (tietojenkäsittelytieteet), Tampereen yliopisto.
@@ -10,7 +10,7 @@ package oope2017ht;
  *
  */
 
-public class Main extends Kayttoliittyma {
+public class Oope2017HT extends Kayttoliittyma {
     public static void main(String[] args) {
         /** Luo Kayttoliittyma-olion
          */

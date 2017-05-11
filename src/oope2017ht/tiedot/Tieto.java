@@ -1,4 +1,4 @@
-package tiedot;
+package oope2017ht.tiedot;
 
 /**
  * Abstracti luokka Tieto joka toteuttaa Comparable<T>-rajapinnan. Luokan attribuutti on
@@ -100,22 +100,31 @@ public abstract class Tieto implements Comparable<Tieto> {
      * nimi-attribuutin tarkistus
      *
      * @param annettuNimi
-     * @return
-     * @throws IllegalArgumentException
+     * @return true/false
      */
-    private boolean nimiOk(StringBuilder annettuNimi) throws IllegalArgumentException {
+    public boolean nimiOk(StringBuilder annettuNimi) {
         String tarkasteltava = annettuNimi.toString();
         boolean onOk = true;
+        int pisteet = 0;
         /**
          * parametrin sisältämien merkkien tarkistus
          */
         for (int i = 0; i < tarkasteltava.length(); i++) {
             if (tarkasteltava.charAt(i) >= 'a' && tarkasteltava.charAt(i) <= 'z'
                     || tarkasteltava.charAt(i) >= 'A' && tarkasteltava.charAt(i) <= 'Z'
-                    || tarkasteltava.charAt(i) >= '0' && tarkasteltava.charAt(i) <= '0'
+                    || tarkasteltava.charAt(i) >= '0' && tarkasteltava.charAt(i) <= '9'
                     || tarkasteltava.charAt(i) == '_' || tarkasteltava.charAt(i) == '.') {
-            } else {
-                throw new IllegalArgumentException();
+                /**
+                 * Tarkastaa annetun parametrin pisteiden määrän.
+                 */
+                if (tarkasteltava.charAt(i) == '.' && pisteet == 1) {
+                    return false;
+                }
+                else if (tarkasteltava.charAt(i) == '.')
+                    pisteet++;
+            }
+            else {
+                return false;
             }
         }
         return onOk;

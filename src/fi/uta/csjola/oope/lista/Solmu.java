@@ -18,7 +18,7 @@ public class Solmu {
     *
     */
 
-   /** Solmun sis�lt�m� tiedot, joka voi olla mit� tahansa luokkatyyppi�. */
+   /** Solmun sis�lt�m� oope2017ht.tiedot, joka voi olla mit� tahansa luokkatyyppi�. */
    private Object alkio;
 
    /** Viite seuraavaan solmuun. */
