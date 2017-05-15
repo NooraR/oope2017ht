@@ -150,14 +150,7 @@ public class Komentotulkki extends Hakemisto {
          */
         else if (parametrit[0].equals("find")) {
             if (parametrit.length < 2) {
-                for (int i = 0; i < juurihakemisto.sisalto().koko(); i++) {
-                    tulostaln(EROTIN + juurihakemisto.sisalto().alkio(i));
-                    /**
-                     * mikään ei todennäköisesti mene if:iin
-                     */
-                    if (juurihakemisto.sisalto().alkio(i) instanceof Hakemisto)
-                        kayLapi((Hakemisto)juurihakemisto.sisalto().alkio(i));
-                }
+                kayLapi(nykyinenHakemisto);
             }
             else {
                 tulostaln(ERROR);
@@ -247,7 +240,7 @@ public class Komentotulkki extends Hakemisto {
      */
     private void kayLapi(Hakemisto hakemisto) {
         for (int i = 0; i < hakemisto.sisalto().koko(); i++) {
-            tulosta(tulostaHakemistopolku(hakemisto.sisalto().alkio(i)));
+            tulosta(tulostaHakemistopolku(hakemisto));
             tulostaln(hakemisto.sisalto().alkio(i).toString());
             if (hakemisto.sisalto().alkio(i) instanceof Hakemisto) {
                kayLapi((Hakemisto)hakemisto.sisalto().alkio(i));
@@ -259,20 +252,21 @@ public class Komentotulkki extends Hakemisto {
      * Jos parametri ei ole null, metodi hakee parametrin ylähakemistoja aina juurihakemistoon asti
      * ja lisää hakemistojen nimet ketjuksi hakemistopolku-nimiseen muuttujaan, jonka metodi palauttaa.
      *
-     * @param viimeinen
+     * @param hakemisto
      * @return String-tyyppinen hakemistopolku-muuttuja
      */
-    private String tulostaHakemistopolku(Object viimeinen) {
+    private String tulostaHakemistopolku(Hakemisto hakemisto) {
         String hakemistopolku = "";
-        while (viimeinen != null) {
-            viimeinen = ((Hakemisto)viimeinen).annaYlihakemisto();
-            if (viimeinen.equals(juurihakemisto)) {
+        while (hakemisto != null) {
+            if (hakemisto.equals(juurihakemisto)) {
                 break;
             }
             else {
-                hakemistopolku = ((Tieto) viimeinen).annaNimi().toString() + EROTIN + hakemistopolku;
+                hakemistopolku = hakemisto.annaNimi().toString() + EROTIN + hakemistopolku;
             }
+            hakemisto = hakemisto.annaYlihakemisto();
         }
+        hakemistopolku = EROTIN + hakemistopolku;
         return hakemistopolku;
     }
 

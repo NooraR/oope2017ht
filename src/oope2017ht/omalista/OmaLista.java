@@ -83,7 +83,9 @@ public class OmaLista extends LinkitettyLista implements Ooperoiva {
                 while (i < koko()) {
                     /** Vertaa lisättävää oliota hakemistosta löytyviin alkioihin
                      */
-                    int j = uusi.toString().compareTo(alkio(i).toString());
+                    String uudenNimi = uusi.toString().replace('.','a');
+                    String vertailtavaNimi = alkio(i).toString().replace('.','a');
+                    int j = uudenNimi.compareTo(vertailtavaNimi);
                     if (j > 0)
                         i++;
                     else if (j <= koko()) {
