@@ -32,7 +32,7 @@ public class Kayttoliittyma extends Komentotulkki {
      */
     private Komentotulkki komentotulkki = new Komentotulkki();
 
-    /*
+    /**
      * Pyörittää ohjelmaa
      *
      */
@@ -47,10 +47,10 @@ public class Kayttoliittyma extends Komentotulkki {
          */
         komentotulkki.luoJuurihakemisto();
 
-        /* pyörittää ohjelmaa, kunnes käyttäjä antaa lopettamiskäskyn
+        /**pyörittää ohjelmaa, kunnes käyttäjä antaa lopettamiskäskyn
          */
         while (jatketaanko) {
-            //try {
+            try {
                 /* tulostaa polun ja syötekehotteen
                  */
                 tulosta(komentotulkki.annaPolku());
@@ -61,16 +61,17 @@ public class Kayttoliittyma extends Komentotulkki {
                 /* lähettää syötteen Komentotulkille
                  */
                 jatketaanko = komentotulkki.paloittele(komento);
-            //} catch (Exception e) {
-            //    tulostaln(ERROR);
-            //}
+            } catch (Exception e) {
+                tulostaln(ERROR);
+            }
         }
         /* tulostaa lopetustekstin
          */
         tulostaln(LOPETUS);
     }
 
-    /* tulostaa parametrin
+    /**
+     *  tulostaa parametrin
      *
      * @param tulostettava
      */
@@ -78,7 +79,8 @@ public class Kayttoliittyma extends Komentotulkki {
         System.out.print(tulostettava);
     }
 
-    /* tulostaa parametrin rivinvaihdolla
+    /**
+     * tulostaa parametrin rivinvaihdolla
      *
      * @param tulostettava
      */
@@ -86,7 +88,8 @@ public class Kayttoliittyma extends Komentotulkki {
         System.out.println(tulostettava);
     }
 
-    /* tulostaa KIRJOITA-attribuutin
+    /**
+     * tulostaa KIRJOITA-attribuutin
      */
     private void annaSyote() {
         System.out.print(KIRJOITA);

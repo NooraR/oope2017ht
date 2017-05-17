@@ -106,7 +106,7 @@ public abstract class Tieto implements Comparable<Tieto> {
         String tarkasteltava = annettuNimi.toString();
         boolean onOk = true;
         int pisteet = 0;
-        /**
+        /*
          * parametrin sisältämien merkkien tarkistus
          */
         for (int i = 0; i < tarkasteltava.length(); i++) {
@@ -114,7 +114,7 @@ public abstract class Tieto implements Comparable<Tieto> {
                     || tarkasteltava.charAt(i) >= 'A' && tarkasteltava.charAt(i) <= 'Z'
                     || tarkasteltava.charAt(i) >= '0' && tarkasteltava.charAt(i) <= '9'
                     || tarkasteltava.charAt(i) == '_' || tarkasteltava.charAt(i) == '.') {
-                /**
+                /*
                  * Tarkastaa annetun parametrin pisteiden määrän.
                  */
                 if (tarkasteltava.charAt(i) == '.' && pisteet == 1) {

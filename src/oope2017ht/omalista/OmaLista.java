@@ -65,10 +65,10 @@ public class OmaLista extends LinkitettyLista implements Ooperoiva {
      *
      */
     public boolean lisaa(Object uusi) {
-        /** Tarkistaa, ettei parametrina saadun syötteen arvo ole null
+        /* Tarkistaa, ettei parametrina saadun syötteen arvo ole null
          */
         if (uusi != null) {
-            /** Käy hakemiston läpi ja palauttaa false jos löytää hakemistosta
+            /* Käy hakemiston läpi ja palauttaa false jos löytää hakemistosta
              * samannimisen hakemiston
              */
             for (int k = 0; k < koko; k++) {
@@ -76,12 +76,12 @@ public class OmaLista extends LinkitettyLista implements Ooperoiva {
                     return false;
                 }
             }
-            /** Jos hakemistossa on jo sisältö
+            /* Jos hakemistossa on jo sisältö
              */
             int i = 0;
             if (koko() > 0) {
                 while (i < koko()) {
-                    /** Vertaa lisättävää oliota hakemistosta löytyviin alkioihin
+                    /* Vertaa lisättävää oliota hakemistosta löytyviin alkioihin
                      */
                     String uudenNimi = uusi.toString().replace('.','a');
                     String vertailtavaNimi = alkio(i).toString().replace('.','a');
@@ -92,7 +92,7 @@ public class OmaLista extends LinkitettyLista implements Ooperoiva {
                         lisaa(i, uusi);
                         return true;
                     }
-                    /** Jos muuttuja i on hakemiston sisällön lopussa, lisätään
+                    /* Jos muuttuja i on hakemiston sisällön lopussa, lisätään
                      * uusi olio hakemisto-listan loppuun
                      */
                     if (i == koko()) {
@@ -101,7 +101,7 @@ public class OmaLista extends LinkitettyLista implements Ooperoiva {
                     }
                 }
             }
-            /** Jos hakemistossa ei ole vielä hakemistoja tai tiedostoja, lisätään annettu
+            /* Jos hakemistossa ei ole vielä hakemistoja tai tiedostoja, lisätään annettu
              * oli alkuun
              */
             else {

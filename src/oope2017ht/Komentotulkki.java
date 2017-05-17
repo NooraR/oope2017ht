@@ -155,7 +155,6 @@ public class Komentotulkki extends Hakemisto {
             else {
                 tulostaln(ERROR);
             }
-
         }
 
         /** Poistaa parametrina annetun nimisen tiedoston
