@@ -37,8 +37,11 @@ public class Kayttoliittyma extends Komentotulkki {
      *
      */
     public void start() {
-        String komento;
         boolean jatketaanko = true;
+        /**
+         * Tallentaa käyttäjän syötteen
+         */
+        String komento;
 
         /* tervehdyksen
          */

@@ -48,11 +48,54 @@ public class Komentotulkki extends Hakemisto {
      *
      */
     private boolean tulkitse(String[] parametrit) {
+        String komento = parametrit[0];
+
+        switch (komento) {
+            case "md":
+                md(parametrit);
+                break;
+            case "mf":
+                mf(parametrit);
+                break;
+            case "cd":
+                cd(parametrit);
+                break;
+            case "ls":
+                ls(parametrit);
+                break;
+            case "find":
+                find(parametrit);
+                break;
+            case "rm":
+                rm(parametrit);
+                break;
+            case "cp":
+                cp(parametrit);
+                break;
+            case "mv":
+                mv(parametrit);
+                break;
+            /**
+             * lopettaa ohjelman
+             */
+            case "exit":
+                return false;
+            default:
+                tulostaln(ERROR);
+        }
+
+        /**
+         * Jos komento on virheellinen, tulostaa ERROR:in.
+         */
+
+        return true;
+    }
+
 
         /** luodaan uusi Hakemisto, jonka nimeksi asetetaan
          * parametrina annetusta nimestä tehty StringBuilder-olio
          */
-        if (parametrit[0].equals("md")) {
+    private void md(String[] parametrit) {
             if (parametrit.length > 1 && parametrit.length < 3
                 && nykyinenHakemisto.nimiOk(new StringBuilder(parametrit[1]))) {
                 Hakemisto apu = nykyinenHakemisto;
@@ -67,7 +110,7 @@ public class Komentotulkki extends Hakemisto {
         /** Luodaan uusi Tiedosto, jonka nimeksi asetetaan parametrina
          * annetusta nimestä tehty StringBuilder-olio
          */
-        else if (parametrit[0].equals("mf")) {
+        private void mf(String[] parametrit) {
             if (parametrit.length > 2 && parametrit.length < 4) {
                 int apu = muutaNumeroksi(parametrit[2]);
                 if (nykyinenHakemisto.nimiOk(new StringBuilder(parametrit[1])) && apu >= 0) {
@@ -82,7 +125,7 @@ public class Komentotulkki extends Hakemisto {
 
         /** siirrytään parametrien määrittämään tiedostoon
          */
-        else if (parametrit[0].equals("cd")) {
+        private void cd(String[] parametrit) {
             /** parametria ei ole, siirrytään juurihakemistoon
              */
              if (parametrit.length < 2) {
@@ -120,35 +163,30 @@ public class Komentotulkki extends Hakemisto {
             }
         }
 
-        /** Listaa parametrina saadun hakemiston sisällön. Jos käyttäjä
+        /**
+         * Listaa parametrina saadun hakemiston sisällön. Jos käyttäjä
          * ei ole antanut parametria, listataa nykyisen hakemiston sisältö
          */
-        else if (parametrit[0].equals("ls")) {
-            /** Hakee parametrina saadun nimisen hakemiston ja tulostaa sen sisällön
+        private void ls(String[] parametrit) {
+            /**
+             * Hakee parametrina saadun nimisen hakemiston ja tulostaa sen sisällön
              */
-            if (parametrit.length > 1 && parametrit.length < 3) {
-                if (nykyinenHakemisto.hae(parametrit[1]) != null) {
-                    if (nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto) {
-                        tulostaln(nykyinenHakemisto.hae(parametrit[1]));
-                    } else {
-                        Hakemisto haettu = (Hakemisto) hae(parametrit[1]);
-                        tulostaSisalto(haettu.sisalto());
-                    }
-                }
-                else {
-                    tulostaln(ERROR);
-                }
+            if (parametrit.length > 1 && parametrit.length < 3
+                    && nykyinenHakemisto.hae(parametrit[1]) != null) {
+                tulostaln(nykyinenHakemisto.hae(parametrit[1]));
             }
             /** tulostaa nykyisen hakemiston sisällön
              */
-            else {
+            else if (parametrit.length < 2) {
                 tulostaSisalto(nykyinenHakemisto.sisalto());
+            } else {
+                tulostaln(ERROR);
             }
         }
 
         /** listaa hakemiston rekursiivisesti esittämisjärjestyksessä
          */
-        else if (parametrit[0].equals("find")) {
+        private void find(String[] parametrit) {
             if (parametrit.length < 2) {
                 kayLapi(nykyinenHakemisto);
             }
@@ -159,7 +197,7 @@ public class Komentotulkki extends Hakemisto {
 
         /** Poistaa parametrina annetun nimisen tiedoston
          */
-        else if (parametrit[0].equals("rm")) {
+        private void rm(String[] parametrit) {
             if (parametrit.length > 1 && parametrit.length < 3 && nykyinenHakemisto.hae(parametrit[1]) != null)
                 nykyinenHakemisto.poista(parametrit[1]);
             else
@@ -168,13 +206,14 @@ public class Komentotulkki extends Hakemisto {
 
         /** Luo kopion parametrina annetusta Tiedostosta
          */
-        else if (parametrit[0].equals("cp")) {
+        private void cp(String[] parametrit) {
             /**
              * Tarkistaa, että hakemistosta löytyy kopioitava tiedosto ja että hakemistosta ei löydy uuden nimistä
              * tiedostoa.
              */
-            if (nykyinenHakemisto.hae(parametrit[1]) != null && nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto
-                && nykyinenHakemisto.hae(parametrit[2]) == null) {
+            if (nykyinenHakemisto.hae(parametrit[1]) != null
+                    && nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto
+                    && nykyinenHakemisto.hae(parametrit[2]) == null) {
                 int kopioKoko = ((Tiedosto) nykyinenHakemisto.hae(parametrit[1])).annaKoko();
                 nykyinenHakemisto.lisaa(new Tiedosto(new StringBuilder(parametrit[2]), kopioKoko));
             }
@@ -185,7 +224,7 @@ public class Komentotulkki extends Hakemisto {
 
         /** Uudelleennimeää annetun nimisen tiedoston parametrina annetulla nimellä
          */
-        else if (parametrit[0].equals("mv")) {
+        private void mv(String[] parametrit) {
             /** nimeää tiedoston annetun nimiseksi tiedostoksi, jos
              * nimellä löydetään tiedosto nykyhakemistosta ja hakemistossa ei ole
              * vielä uuden nimistä tiedostoa
@@ -198,20 +237,6 @@ public class Komentotulkki extends Hakemisto {
                 tulostaln(ERROR);
             }
         }
-
-        /** Lopettaa ohjelman
-         */
-        else if (parametrit[0].equals("exit")) {
-            return false;
-        }
-        /**
-         * Jos komento on virheellinen, tulostaa ERROR:in.
-         */
-        else {
-            tulostaln(ERROR);
-        }
-        return true;
-    }
 
     /**
      * Muuttaa String-tyyppisen muuttajan vastaavaksi Integer-tyyppiseksi muuttujaksi.
