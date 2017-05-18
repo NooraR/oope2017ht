@@ -230,8 +230,13 @@ public class Komentotulkki extends Hakemisto {
              * vielä uuden nimistä tiedostoa
              */
             if (nykyinenHakemisto.hae(parametrit[1]) instanceof Tiedosto
-                && nykyinenHakemisto.hae(parametrit[2]) == null) {
-                nykyinenHakemisto.hae(parametrit[1]).asetaNimi(new StringBuilder(parametrit[2]));
+                && nykyinenHakemisto.hae(parametrit[2]) == null
+                && nykyinenHakemisto.nimiOk(new StringBuilder(parametrit[1]))
+                && ((Tiedosto) nykyinenHakemisto.hae(parametrit[1])).annaKoko() >= 0) {
+                    nykyinenHakemisto.lisaa(new Tiedosto((new StringBuilder(parametrit[2]))
+                        ,((Tiedosto) nykyinenHakemisto.hae(parametrit[1])).annaKoko()));
+                    parametrit[2] = parametrit[1];
+                    rm(parametrit);
             }
             else {
                 tulostaln(ERROR);
